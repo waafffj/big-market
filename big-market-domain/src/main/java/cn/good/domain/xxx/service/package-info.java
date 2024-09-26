@@ -1,0 +1,1 @@
+package cn.good.domain.xxx.service;
