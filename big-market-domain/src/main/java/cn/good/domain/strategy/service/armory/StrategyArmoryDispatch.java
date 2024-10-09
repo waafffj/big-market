@@ -4,6 +4,7 @@ import cn.good.domain.strategy.model.entity.StrategyAwardEntity;
 import cn.good.domain.strategy.model.entity.StrategyEntity;
 import cn.good.domain.strategy.model.entity.StrategyRuleEntity;
 import cn.good.domain.strategy.repository.IStrategyRepository;
+import cn.good.types.common.Constants;
 import cn.good.types.enums.ResponseCode;
 import cn.good.types.exception.AppException;
 import lombok.extern.slf4j.Slf4j;
@@ -86,7 +87,7 @@ public class StrategyArmoryDispatch implements IStrategyArmory,IStrategyDispatch
 
     @Override
     public Integer getRandomAwardId(Long strategyId, String ruleWeightValue) {
-        String key = String.valueOf(strategyId).concat("_").concat(ruleWeightValue);
+        String key = String.valueOf(strategyId).concat(Constants.UNDERLINE).concat(ruleWeightValue);
         int rateRange = repository.getRateRange(key);
         return repository.getStrategyAwardAssemble(key,new SecureRandom().nextInt(rateRange));
     }

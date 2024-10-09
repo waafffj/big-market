@@ -24,15 +24,18 @@ public class StrategyRuleEntity {
     private String ruleValue;
     private String ruleDesc;
 
+//    获取权重值
+//   数据案例: 4000:102,103,104,105 5000:102,103,104,105,106,107
+
     public Map<String, List<Integer>> getRuleWeightValues(){
         if(!"rule_weight".equals(ruleModel)) return null;
-        String [] ruleValueGroups = ruleValue.split(Constants.SPACE);
+        String [] ruleValueGroups = ruleValue.split(Constants.SPACE); //空格分割
         Map<String,List<Integer>> resultMap = new HashMap<>();
         for(String ruleValueGroup : ruleValueGroups ){
             if(ruleValueGroup == null || ruleValueGroup.isEmpty()){
                 return resultMap;
             }
-            String [] parts = ruleValueGroup.split(Constants.COLON);
+            String [] parts = ruleValueGroup.split(Constants.COLON);// : 分割
             if(parts.length != 2){
                 throw new IllegalArgumentException("rule_weight rule_rule invalid input format" + ruleValueGroup);
             }
