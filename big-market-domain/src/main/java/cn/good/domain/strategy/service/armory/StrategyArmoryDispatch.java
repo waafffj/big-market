@@ -44,7 +44,7 @@ public class StrategyArmoryDispatch implements IStrategyArmory,IStrategyDispatch
             List<Integer> ruleWeightValues = ruleWeightValueMap.get(key);
             ArrayList<StrategyAwardEntity> strategyAwardEntitiesClone = new ArrayList<>(strategyAwardEntities);
             strategyAwardEntitiesClone.removeIf(entity -> !ruleWeightValues.contains(entity.getAwardId()));
-            assembleLotteryStrategy(String.valueOf(strategyId).concat("_").concat(key),strategyAwardEntitiesClone);
+            assembleLotteryStrategy(String.valueOf(strategyId).concat(Constants.UNDERLINE).concat(key),strategyAwardEntitiesClone);
         }
         return true;
     }
@@ -79,6 +79,16 @@ public class StrategyArmoryDispatch implements IStrategyArmory,IStrategyDispatch
         repository.storeStrategyAwardSearchRateTable(key,shuffleStrategyAwardSearchRateTable.size(),shuffleStrategyAwardSearchRateTable);
     }
 
+    private double convert(double min){
+        double current = min;
+        double max = 1;
+        while (current < 1){
+            current = current * 10;
+            max = max * 10;
+        }
+        return max;
+    }
+
     @Override
     public Integer getRandomAwardId(Long strategyId) {
         int rateRange = repository.getRateRange(strategyId);
@@ -88,6 +98,11 @@ public class StrategyArmoryDispatch implements IStrategyArmory,IStrategyDispatch
     @Override
     public Integer getRandomAwardId(Long strategyId, String ruleWeightValue) {
         String key = String.valueOf(strategyId).concat(Constants.UNDERLINE).concat(ruleWeightValue);
+        return getRandomAwardId(key);
+    }
+
+    @Override
+    public Integer getRandomAwardId(String key) {
         int rateRange = repository.getRateRange(key);
         return repository.getStrategyAwardAssemble(key,new SecureRandom().nextInt(rateRange));
     }

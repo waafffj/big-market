@@ -1,7 +1,7 @@
 package cn.good.domain.strategy.model.valobj;
 
 
-import cn.good.domain.strategy.service.rule.factory.DefaultLogicFactory;
+import cn.good.domain.strategy.service.rule.filter.factory.DefaultLogicFactory;
 import cn.good.types.common.Constants;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

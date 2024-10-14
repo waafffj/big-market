@@ -80,6 +80,7 @@ public class StrategyRepository implements IStrategyRepository {
 
     @Override
     public StrategyEntity queryStrategyEntityByStrategyId(Long strategyId) {
+//        缓存
         String cacheKey = Constants.RedisKey.STRATEGY_KEY + strategyId;
         StrategyEntity  strategyEntity = redisService.getValue(cacheKey);
         if(null != strategyEntity) return strategyEntity;
@@ -107,6 +108,11 @@ public class StrategyRepository implements IStrategyRepository {
                 .ruleValue(strategyRuleRes.getRuleValue())
                 .ruleDesc(strategyRuleRes.getRuleDesc())
                 .build();
+    }
+
+    @Override
+    public String queryStrategyRuleValue(Long strategyId, String ruleModel) {
+            return queryStrategyRuleValue(strategyId,null,ruleModel);
     }
 
     @Override

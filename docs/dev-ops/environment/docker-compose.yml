@@ -46,7 +46,7 @@ services:
     environment:
       - PMA_HOST=mysql
       - PMA_PORT=3306
-      - MYSQL_ROOT_PASSWORD=wkm20031105
+      - MYSQL_ROOT_PASSWORD=123456
     depends_on:
       mysql:
         condition: service_healthy
@@ -85,6 +85,9 @@ services:
       - REDIS_HOSTS=local:redis:6379
       - HTTP_USER=admin
       - HTTP_PASSWORD=admin
+      - LANG=C.UTF-8
+      - LANGUAGE=C.UTF-8
+      - LC_ALL=C.UTF-8
     networks:
       - my-network
     depends_on:

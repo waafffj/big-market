@@ -16,5 +16,16 @@ import javax.annotation.Resource;
 public class ApiTest {
     @Test
     public void test() {
+        double x = 0.0009d;
+        System.out.println(convert(x));
+    }
+    private double convert(double min){
+        double current = min;
+        double max = 1;
+        while (current < 1){
+            current = current * 10;
+            max = max * 10;
+        }
+        return max;
     }
 }
