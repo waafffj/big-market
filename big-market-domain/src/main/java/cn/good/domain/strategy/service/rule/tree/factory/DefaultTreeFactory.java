@@ -1,6 +1,4 @@
 package cn.good.domain.strategy.service.rule.tree.factory;
-
-
 import cn.good.domain.strategy.model.valobj.RuleLogicCheckTypeVO;
 import cn.good.domain.strategy.model.valobj.RuleTreeVO;
 import cn.good.domain.strategy.service.rule.tree.ILogicTreeNode;
@@ -13,7 +11,7 @@ import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.Map;
-
+/*  规则树工厂   */
 @Service
 public class DefaultTreeFactory {
     private final Map<String,ILogicTreeNode> logicTreeNodeGroup;
@@ -31,15 +29,16 @@ public class DefaultTreeFactory {
     @NoArgsConstructor
     public static class TreeActionEntity{
         private RuleLogicCheckTypeVO ruleLogicCheckType;
-        private StrategyAwardData strategyAwardData;
+        private StrategyAwardVO strategyAwardVO;
     }
 
     @Data
     @Builder
     @AllArgsConstructor
     @NoArgsConstructor
-    public static class StrategyAwardData{
+    public static class StrategyAwardVO{
         private Integer awardId;
+        /*   抽奖奖品规则  */
         private String awardRuleValue;
     }
 }

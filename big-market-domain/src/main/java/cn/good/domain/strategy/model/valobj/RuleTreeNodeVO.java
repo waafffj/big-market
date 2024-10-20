@@ -12,10 +12,11 @@ import java.util.List;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class RuleTreeNodeVO {
-    private Integer treeId;
+public class RuleTreeNodeVO {  // 节点
+    private String treeId;
     private String ruleKey;
     private String ruleDesc;
     private String ruleValue;
+    /* 规则连线 */
     private List<RuleTreeNodeLineVO> treeNodeLineVOList;
 }

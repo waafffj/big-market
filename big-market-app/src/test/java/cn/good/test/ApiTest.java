@@ -1,6 +1,8 @@
 package cn.good.test;
 
 import cn.good.infrastructure.persistent.redis.IRedisService;
+import cn.good.trigger.api.dto.RaffleAwardListRequestDTO;
+import com.alibaba.fastjson.JSON;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -16,8 +18,10 @@ import javax.annotation.Resource;
 public class ApiTest {
     @Test
     public void test() {
-        double x = 0.0009d;
-        System.out.println(convert(x));
+        RaffleAwardListRequestDTO requestDTO = new RaffleAwardListRequestDTO();
+        requestDTO.setStrategyId(1000001L);
+        log.info(JSON.toJSONString(requestDTO));
+
     }
     private double convert(double min){
         double current = min;
