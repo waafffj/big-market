@@ -11,7 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 
 import java.util.List;
 import java.util.Map;
-
+/*决策树引擎*/
 @Slf4j
 public class DecisionTreeEngine implements IDecisionTreeEngine {
 
@@ -26,22 +26,28 @@ public class DecisionTreeEngine implements IDecisionTreeEngine {
 
 
     @Override
-    public DefaultTreeFactory.StrategyAwardData process(String userId, Long strategyId, Integer awardId) {
-        DefaultTreeFactory.StrategyAwardData strategyAwardData = null;
+    public DefaultTreeFactory.StrategyAwardVO process(String userId, Long strategyId, Integer awardId) {
+        DefaultTreeFactory.StrategyAwardVO strategyAwardData = null;
+        // 获取基础信息
 
         String nextnode = ruleTreeVO.getTreeRootRuleNode();
-        Map<String, RuleTreeNodeVO> treeNodeVOMap = ruleTreeVO.getTreeNodeMap();
-        RuleTreeNodeVO ruleTreeNode = treeNodeVOMap.get(nextnode);
-
+        Map<String, RuleTreeNodeVO> treeNodeMap = ruleTreeVO.getTreeNodeMap();
+        // 获取起始节点「根节点记录了第一个要执行的规则」
+        RuleTreeNodeVO ruleTreeNode = treeNodeMap.get(nextnode);
         while(null != nextnode){
+            // 获取决策节点
             ILogicTreeNode logicTreeNode = logicTreeNodeGroup.get(ruleTreeNode.getRuleKey());
-            DefaultTreeFactory.TreeActionEntity logicEntity = logicTreeNode.logic(userId,strategyId,awardId);
+            String ruleValue = ruleTreeNode.getRuleValue();
+            // 决策节点计算
+            DefaultTreeFactory.TreeActionEntity logicEntity = logicTreeNode.logic(userId,strategyId,awardId,ruleValue);
             RuleLogicCheckTypeVO ruleLogicCheckTypeVO = logicEntity.getRuleLogicCheckType();
-            strategyAwardData = logicEntity.getStrategyAwardData();
+            strategyAwardData = logicEntity.getStrategyAwardVO();
             log.info("决策树引擎【{}】 treeId :{} node :{} code :{}",ruleTreeVO.getTreeName(),ruleTreeVO.getTreeId(),nextnode,ruleLogicCheckTypeVO.getCode());
+            // 获取下个节点
             nextnode = nextnode(ruleLogicCheckTypeVO.getCode(),ruleTreeNode.getTreeNodeLineVOList());
-            ruleTreeNode = treeNodeVOMap.get(nextnode);
+            ruleTreeNode = treeNodeMap.get(nextnode);
         }
+        /*   返回最终结果  */
         return strategyAwardData;
     }
 
@@ -52,7 +58,7 @@ public class DecisionTreeEngine implements IDecisionTreeEngine {
                 return nodeLine.getRuleNodeTo();
             }
         }
-        throw new RuntimeException("决策树引擎,nextnode 计算失败 未找到可执行的节点");
+        return null;
     }
     public boolean decisionLogic(String matterValue,RuleTreeNodeLineVO nodeLine){
         switch (nodeLine.getRuleLimitType()){

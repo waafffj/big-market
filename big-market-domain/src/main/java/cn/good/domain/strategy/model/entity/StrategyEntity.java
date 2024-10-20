@@ -27,7 +27,6 @@ public class StrategyEntity {
         for(String ruleModel : ruleModels){
             if("rule_weight".equals(ruleModel)) return ruleModel;
         }
-
         return null;
     }
 
