@@ -56,6 +56,7 @@ public class StrategyArmoryDispatch implements IStrategyArmory,IStrategyDispatch
             strategyAwardEntitiesClone.removeIf(entity -> !ruleWeightValues.contains(entity.getAwardId()));
             assembleLotteryStrategy(String.valueOf(strategyId).concat(Constants.UNDERLINE).concat(key), strategyAwardEntitiesClone);
         }
+
         return true;
     }
 
