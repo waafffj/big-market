@@ -16,7 +16,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class ActitySkuEntity {
+public class ActivitySkuEntity {
     private Long sku;
     private Long activityId;
     /*  活动个人参数ID (在这个活动上，一个人可参与多少次活动 (总、月、日))*/

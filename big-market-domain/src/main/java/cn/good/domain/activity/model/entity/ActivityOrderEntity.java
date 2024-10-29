@@ -11,7 +11,7 @@ import java.util.Date;
 /**
  * TODO
  *
- * @Description
+ * @Description 活动参与实体对象
  * @Author wkm
  * @Date 2024/10/28
  **/
@@ -21,6 +21,7 @@ import java.util.Date;
 @NoArgsConstructor
 public class ActivityOrderEntity {
     private String userId;
+    private Long sku;
     private Long activityId;
     private String activityName;
     private Long strategyId;
@@ -30,4 +31,6 @@ public class ActivityOrderEntity {
     private Integer dayCount;
     private Integer monthCount;
     private OrderStateVO state;
+    /*  业务防重ID*/
+    private String outBusinessNo;
 }

@@ -15,6 +15,7 @@ import java.util.Date;
 public class RaffleActivityOrder {
     private Long id;
     private String userId;
+    private Long sku;
     private Long activityId;
     private String activityName;
     private Long strategyId;
@@ -25,6 +26,8 @@ public class RaffleActivityOrder {
     private Integer monthCount;
     /*  订单状态(not_used、used、expire)*/
     private String state;
+     /*     业务防重ID  */
+    private String outBusinessNo;
     private Date createTime;
     private Date updateTime;
 }

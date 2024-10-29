@@ -19,7 +19,12 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class CreateOrderAggregate {
-    /*  活动账户实体  */
-    private ActivityAccountEntity activityAccountEntity;
+    private String userId;
+    private Long activityId;
+    /*  增加总次数 */
+    private Integer totalCount;
+    /*  增加日次数 */
+    private Integer dayCount;
+    private Integer monthCount;
     private ActivityOrderEntity activityOrderEntity;
 }

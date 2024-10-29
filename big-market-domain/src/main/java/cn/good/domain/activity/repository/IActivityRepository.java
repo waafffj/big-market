@@ -1,6 +1,7 @@
 package cn.good.domain.activity.repository;
 
-import cn.good.domain.activity.model.entity.ActitySkuEntity;
+import cn.good.domain.activity.model.aggregate.CreateOrderAggregate;
+import cn.good.domain.activity.model.entity.ActivitySkuEntity;
 import cn.good.domain.activity.model.entity.ActivityCountEntity;
 import cn.good.domain.activity.model.entity.ActivityEntity;
 
@@ -12,7 +13,8 @@ import cn.good.domain.activity.model.entity.ActivityEntity;
  * @Date 2024/10/28
  **/
 public interface IActivityRepository {
-    ActitySkuEntity queryActivitySku(Long sku);
+    ActivitySkuEntity queryActivitySku(Long sku);
     ActivityEntity queryRaffleActivityByActivityId(Long activityId);
     ActivityCountEntity queryRaffleActivityCountByActivityCountId(Long activityCountId);
+    void doSaveOrder(CreateOrderAggregate createOrderAggregate);
 }
