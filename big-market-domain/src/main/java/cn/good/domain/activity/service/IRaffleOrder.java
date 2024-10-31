@@ -1,6 +1,5 @@
 package cn.good.domain.activity.service;
 
-import cn.good.domain.activity.model.entity.ActivityOrderEntity;
 import cn.good.domain.activity.model.entity.SkuRechargeEntity;
 
 /**

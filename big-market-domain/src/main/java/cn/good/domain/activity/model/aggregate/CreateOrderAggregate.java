@@ -1,6 +1,5 @@
 package cn.good.domain.activity.model.aggregate;
 
-import cn.good.domain.activity.model.entity.ActivityAccountEntity;
 import cn.good.domain.activity.model.entity.ActivityOrderEntity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

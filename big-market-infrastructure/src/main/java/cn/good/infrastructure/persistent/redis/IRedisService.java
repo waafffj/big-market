@@ -2,6 +2,8 @@ package cn.good.infrastructure.persistent.redis;
 
 import org.redisson.api.*;
 
+import java.util.concurrent.TimeUnit;
+
 
 public interface IRedisService {
 
@@ -68,7 +70,7 @@ public interface IRedisService {
     /**
      * 获取值
      *
-     * @param key   key 键
+     * @param key key 键
      */
     Long getAtomicLong(String key);
 
@@ -258,4 +260,7 @@ public interface IRedisService {
     <T> RBloomFilter<T> getBloomFilter(String key);
 
     Boolean setNx(String key);
+
+    Boolean setNx(String key, long expired, TimeUnit timeUnit);
+
 }

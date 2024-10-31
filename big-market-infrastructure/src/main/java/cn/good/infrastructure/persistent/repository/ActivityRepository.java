@@ -1,13 +1,16 @@
 package cn.good.infrastructure.persistent.repository;
 
 import cn.bugstack.middleware.db.router.strategy.IDBRouterStrategy;
+import cn.good.domain.activity.event.ActivitySkuStockZeroMessageEvent;
 import cn.good.domain.activity.model.aggregate.CreateOrderAggregate;
 import cn.good.domain.activity.model.entity.ActivityCountEntity;
 import cn.good.domain.activity.model.entity.ActivityEntity;
 import cn.good.domain.activity.model.entity.ActivityOrderEntity;
 import cn.good.domain.activity.model.entity.ActivitySkuEntity;
+import cn.good.domain.activity.model.valobj.ActivitySkuStockKeyVO;
 import cn.good.domain.activity.model.valobj.ActivityStateVO;
 import cn.good.domain.activity.repository.IActivityRepository;
+import cn.good.infrastructure.event.EventPublisher;
 import cn.good.infrastructure.persistent.dao.*;
 import cn.good.infrastructure.persistent.po.*;
 import cn.good.infrastructure.persistent.redis.IRedisService;
@@ -15,11 +18,15 @@ import cn.good.types.common.Constants;
 import cn.good.types.enums.ResponseCode;
 import cn.good.types.exception.AppException;
 import lombok.extern.slf4j.Slf4j;
+import org.redisson.api.RBlockingQueue;
+import org.redisson.api.RDelayedQueue;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.support.TransactionTemplate;
 
 import javax.annotation.Resource;
+import java.util.Date;
+import java.util.concurrent.TimeUnit;
 
 /**
  * TODO
@@ -47,6 +54,10 @@ public class ActivityRepository implements IActivityRepository {
     private TransactionTemplate transactionTemplate;
     @Resource
     private IDBRouterStrategy dbRouter;
+    @Resource
+    private ActivitySkuStockZeroMessageEvent activitySkuStockZeroMessageEvent;
+    @Resource
+    private EventPublisher eventPublisher;
     @Override
     public ActivitySkuEntity queryActivitySku(Long sku) {
         RaffleActivitySku raffleActivitySku = raffleActivitySkuDao.queryActivitySku(sku);
@@ -64,7 +75,6 @@ public class ActivityRepository implements IActivityRepository {
         String cacheKey = Constants.RedisKey.ACTIVITY_KEY + activityId;
         ActivityEntity activityEntity = redisService.getValue(cacheKey);
         if(null != activityEntity) return activityEntity;
-
         RaffleActivity raffleActivity = raffleActivityDao.queryRaffleActivityByActivityId(activityId);
         activityEntity = ActivityEntity.builder()
                 .activityId(raffleActivity.getActivityId())
@@ -99,7 +109,7 @@ public class ActivityRepository implements IActivityRepository {
     @Override
     public void doSaveOrder(CreateOrderAggregate createOrderAggregate) {
         try{
-            // 订单对象
+            //  订单对象
             ActivityOrderEntity activityOrderEntity = createOrderAggregate.getActivityOrderEntity();
             RaffleActivityOrder raffleActivityOrder = new RaffleActivityOrder();
             raffleActivityOrder.setUserId(activityOrderEntity.getUserId());
@@ -143,8 +153,8 @@ public class ActivityRepository implements IActivityRepository {
                         raffleActivityAccountDao.insert(raffleActivityAccount);
                     }
                     return 1;
-                }catch (DuplicateKeyException e){
-                    status.setRollbackOnly();
+                }catch (DuplicateKeyException e){ // 违反数据库唯一性的约束
+                    status.setRollbackOnly();   // 设置事务回滚
                     log.error("写入订单记录,唯一索引冲突");
                     throw new AppException(ResponseCode.INDEX_DUP.getCode());
                 }
@@ -152,5 +162,62 @@ public class ActivityRepository implements IActivityRepository {
         }finally {
             dbRouter.clear();
         }
+    }
+
+    @Override
+    public void cacheActivitySkuStockCount(String cacheKey, Integer stockCount) {
+        if(redisService.isExists(cacheKey)) return;
+        redisService.setAtomicLong(cacheKey,stockCount);
+    }
+
+    @Override
+    public boolean subtractionActivitySkuStock(Long sku, String cacheKey, Date endDateTime) {
+        long surplus = redisService.decr(cacheKey);
+        if(surplus == 0){
+            eventPublisher.publish(activitySkuStockZeroMessageEvent.topic(),activitySkuStockZeroMessageEvent.buildEventMessage(sku));
+            return false;
+        } else if (surplus < 0) {
+            redisService.setAtomicLong(cacheKey,0);
+            return false;
+        }
+        String lockKey = cacheKey + Constants.UNDERLINE + surplus;
+        long expireMillis = endDateTime.getTime() - System.currentTimeMillis() + TimeUnit.DAYS.toMillis(1);
+        Boolean lock = redisService.setNx(lockKey,expireMillis,TimeUnit.MILLISECONDS);
+        if(!lock){
+            log.info("活动sku库存加锁失败 {}",lockKey);
+        }
+        return lock;
+    }
+
+    @Override
+    public void activitySkuStockConsumeSendQueue(ActivitySkuStockKeyVO activitySkuStockKeyVO) {
+        String cacheKey = Constants.RedisKey.ACTIVITY_SKU_COUNT_QUEUE_KEY;
+        RBlockingQueue<ActivitySkuStockKeyVO> blockingQueue = redisService.getBlockingQueue(cacheKey);
+        RDelayedQueue<ActivitySkuStockKeyVO> delayedQueue = redisService.getDelayedQueue(blockingQueue);
+        delayedQueue.offer(activitySkuStockKeyVO,3,TimeUnit.SECONDS);
+    }
+
+    @Override
+    public ActivitySkuStockKeyVO takeQueueValue() {
+        String cacheKey = Constants.RedisKey.ACTIVITY_SKU_COUNT_QUEUE_KEY;
+        RBlockingQueue<ActivitySkuStockKeyVO> destinationQueue = redisService.getBlockingQueue(cacheKey);
+        return destinationQueue.poll();
+    }
+
+    @Override
+    public void clearQueueValue() {
+        String cacheKey = Constants.RedisKey.ACTIVITY_SKU_COUNT_QUEUE_KEY;
+        RBlockingQueue<ActivitySkuStockKeyVO> destinationQueue = redisService.getBlockingQueue(cacheKey);
+        destinationQueue.clear();
+    }
+
+    @Override
+    public void updateActivitySkuStock(Long sku) {
+        raffleActivitySkuDao.updateActivitySkuStock(sku);
+    }
+
+    @Override
+    public void clearActivitySkuStock(Long sku) {
+        raffleActivitySkuDao.clearActivitySkuStock(sku);
     }
 }

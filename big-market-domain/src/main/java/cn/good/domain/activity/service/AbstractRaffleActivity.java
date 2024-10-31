@@ -47,9 +47,9 @@ public abstract class AbstractRaffleActivity extends RaffleActivitySupport imple
   ActivityEntity activityEntity = queryRaffleActivityByActivityId(activitySkuEntity.getActivityId());
   /*  查询次数信息 */
   ActivityCountEntity activityCountEntity = queryRaffleActivityCountByActivityCountId(activitySkuEntity.getActivityCountId());
-  /*  活动规则校验 todo 规则过滤流程 */
+  /*  活动规则校验*/
   IActionChain actionChain = defaultActivityChainFactory.openActionChain();
-  boolean success = actionChain.action(activitySkuEntity,activityEntity,activityCountEntity);
+  actionChain.action(activitySkuEntity,activityEntity,activityCountEntity);
    /* 构建订单聚合对象 */
   CreateOrderAggregate createOrderAggregate = buildOrderAggregate(skuRechargeEntity,activitySkuEntity,activityEntity,activityCountEntity);
   /*  保存订单 */
