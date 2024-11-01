@@ -1,11 +1,9 @@
-package cn.good.infrastructure.persistent.po;
+package cn.good.domain.activity.model.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import java.util.Date;
 
 /**
  * TODO
@@ -18,14 +16,11 @@ import java.util.Date;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class RaffleActivityAccountMonth {
-    private String id;
+public class ActivityAccountMonthEntity {
     private String userId;
     private Long activityId;
-    /*  月(yyyy-mm)   */
     private String month;
     private Integer monthCount;
     private Integer monthCountSurplus;
-    private Date createTime;
-    private Date updateTime;
 }
+

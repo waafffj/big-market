@@ -1,5 +1,6 @@
-package cn.good.infrastructure.persistent.po;
+package cn.good.domain.activity.model.entity;
 
+import cn.good.domain.activity.model.valobj.UserRaffleOrderStateVO;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -18,14 +19,12 @@ import java.util.Date;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class RaffleActivityAccountMonth {
-    private String id;
+public class UserRaffleOrderEntity {
     private String userId;
     private Long activityId;
-    /*  月(yyyy-mm)   */
-    private String month;
-    private Integer monthCount;
-    private Integer monthCountSurplus;
-    private Date createTime;
-    private Date updateTime;
+    private String activityName;
+    private Long strategyId;
+    private String orderId;
+    private Date orderTime;
+    private UserRaffleOrderStateVO orderState;
 }

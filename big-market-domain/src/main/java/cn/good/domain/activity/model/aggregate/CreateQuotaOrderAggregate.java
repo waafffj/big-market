@@ -1,16 +1,15 @@
-package cn.good.infrastructure.persistent.po;
+package cn.good.domain.activity.model.aggregate;
 
+import cn.good.domain.activity.model.entity.ActivityOrderEntity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.Date;
-
 /**
  * TODO
  *
- * @Description 抽奖活动账户表 持久化对象
+ * @Description 下单聚合对象
  * @Author wkm
  * @Date 2024/10/28
  **/
@@ -18,16 +17,13 @@ import java.util.Date;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class RaffleActivityAccount {
-    private Long id;
+public class CreateQuotaOrderAggregate {
     private String userId;
     private Long activityId;
+    /*  增加总次数 */
     private Integer totalCount;
-    private Integer totalCountSurplus;
+    /*  增加日次数 */
     private Integer dayCount;
-    private Integer dayCountSurplus;
     private Integer monthCount;
-    private Integer monthCountSurplus;
-    private Date createTime;
-    private Date updateTime;
+    private ActivityOrderEntity activityOrderEntity;
 }
