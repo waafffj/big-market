@@ -174,12 +174,17 @@ public class ActivityRepository implements IActivityRepository {
     public boolean subtractionActivitySkuStock(Long sku, String cacheKey, Date endDateTime) {
         long surplus = redisService.decr(cacheKey);
         if(surplus == 0){
+            /*  发送MQ消息   */
             eventPublisher.publish(activitySkuStockZeroMessageEvent.topic(),activitySkuStockZeroMessageEvent.buildEventMessage(sku));
             return false;
         } else if (surplus < 0) {
             redisService.setAtomicLong(cacheKey,0);
             return false;
         }
+        /*
+        * 按照cacheKey decr后的值 和 key 组成库存锁的key使用
+        * 加锁到期时间为活动结束后一天
+        * */
         String lockKey = cacheKey + Constants.UNDERLINE + surplus;
         long expireMillis = endDateTime.getTime() - System.currentTimeMillis() + TimeUnit.DAYS.toMillis(1);
         Boolean lock = redisService.setNx(lockKey,expireMillis,TimeUnit.MILLISECONDS);
