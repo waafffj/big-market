@@ -1,16 +1,14 @@
-package cn.good.infrastructure.persistent.po;
+package cn.good.domain.activity.model.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.Date;
-
 /**
  * TODO
  *
- * @Description 抽奖活动账户表-日次数
+ * @Description
  * @Author wkm
  * @Date 2024/11/1
  **/
@@ -18,14 +16,10 @@ import java.util.Date;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class RaffleActivityAccountDay {
-    private String id;
+public class ActivityAccountDayEntity {
     private String userId;
     private Long activityId;
-    /*   日期(yyyy-mm-dd)     */
     private String day;
     private Integer dayCount;
-    private Integer datCountSurplus;
-    private Date createTime;
-    private Date updateTime;
+    private Integer dayCountSurplus;
 }
