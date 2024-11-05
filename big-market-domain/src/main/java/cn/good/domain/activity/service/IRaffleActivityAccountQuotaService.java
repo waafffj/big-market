@@ -5,7 +5,7 @@ import cn.good.domain.activity.model.entity.SkuRechargeEntity;
 /**
  * TODO
  *
- * @Description 抽奖活动订单接口
+ * @Description 抽奖活动账户额度服务
  * @Author wkm
  * @Date 2024/10/28
  **/
@@ -18,5 +18,5 @@ public interface IRaffleActivityAccountQuotaService {
      * @return 活动参与记录实体
      */
 
-    String createSkuRechargeOrder(SkuRechargeEntity skuRechargeEntity);
+    String createOrder(SkuRechargeEntity skuRechargeEntity);
 }

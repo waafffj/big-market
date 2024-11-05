@@ -17,14 +17,13 @@ import java.util.Date;
 /**
  * TODO
  *
- * @Description 抽奖活动参与抽象类
+ * @Description 抽奖活动参与抽象类   定义流程
  * @Author wkm
  * @Date 2024/11/1
  **/
 @Slf4j
 public abstract class AbstractRaffleActivityPartake implements IRaffleActivityPartakeService {
     protected final IActivityRepository activityRepository;
-
     protected AbstractRaffleActivityPartake(IActivityRepository activityRepository) {
         this.activityRepository = activityRepository;
     }
@@ -43,7 +42,7 @@ public abstract class AbstractRaffleActivityPartake implements IRaffleActivityPa
         }
         UserRaffleOrderEntity userRaffleOrderEntity = activityRepository.queryNoUsedRaffleOrder(partakeRaffleActivityEntity);
         if(null != userRaffleOrderEntity){
-            log.info("创建参与活动订单 userId:{} activityId:{} userRaffleOrderEntity:{}",userId,activityId, JSON.toJSONString(userRaffleOrderEntity));
+            log.info("创建参与活动订单[已存在] userId:{} activityId:{} userRaffleOrderEntity:{}",userId,activityId, JSON.toJSONString(userRaffleOrderEntity));
             return userRaffleOrderEntity;
         }
 

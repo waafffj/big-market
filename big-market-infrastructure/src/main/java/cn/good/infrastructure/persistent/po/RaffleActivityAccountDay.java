@@ -25,7 +25,7 @@ public class RaffleActivityAccountDay {
     /*   日期(yyyy-mm-dd)     */
     private String day;
     private Integer dayCount;
-    private Integer datCountSurplus;
+    private Integer dayCountSurplus;
     private Date createTime;
     private Date updateTime;
 }
