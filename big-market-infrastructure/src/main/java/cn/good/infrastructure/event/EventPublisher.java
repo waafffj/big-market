@@ -4,9 +4,8 @@ import cn.good.types.event.BaseEvent;
 import com.alibaba.fastjson.JSON;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
-import javax.annotation.Resource;
 
 /**
  * TODO
@@ -19,7 +18,7 @@ import javax.annotation.Resource;
 @Component
 public class EventPublisher {
 
-    @Resource
+    @Autowired
     private RabbitTemplate rabbitTemplate;
 
     public void publish(String topic, BaseEvent.EventMessage<?> eventMessage){

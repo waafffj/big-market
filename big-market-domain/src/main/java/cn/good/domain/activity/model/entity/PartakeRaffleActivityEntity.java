@@ -1,6 +1,9 @@
 package cn.good.domain.activity.model.entity;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * TODO
@@ -10,6 +13,9 @@ import lombok.Data;
  * @Date 2024/11/1
  **/
 @Data
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class PartakeRaffleActivityEntity {
     private String userId;
     private Long activityId;

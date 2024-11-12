@@ -21,4 +21,6 @@ public class StrategyAwardEntity {
     private Integer awardCountSurplus;
     private BigDecimal awardRate;
     private Integer sort;
+    /* 规则模型*/
+    private String ruleModels;
 }

@@ -47,7 +47,6 @@ public class AwardServiceTest {
             awardService.saveUserAwardRecord(userAwardRecordEntity);
             Thread.sleep(500);
         }
-
         new CountDownLatch( 1).await();
     }
 

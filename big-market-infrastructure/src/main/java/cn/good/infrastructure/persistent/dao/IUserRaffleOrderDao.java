@@ -8,7 +8,7 @@ import org.apache.ibatis.annotations.Mapper;
 /**
  * TODO
  *
- * @Description
+ * @Description 用户抽奖订单
  * @Author wkm
  * @Date 2024/11/1
  **/
@@ -18,4 +18,5 @@ public interface IUserRaffleOrderDao {
     void insert(UserRaffleOrder userRaffleOrder);
     @DBRouter
     UserRaffleOrder queryNoUsedRaffleOrder(UserRaffleOrder userRaffleOrderReq);
+    int updateUserRaffleOrderStateUsed(UserRaffleOrder userRaffleOrderReq);
 }

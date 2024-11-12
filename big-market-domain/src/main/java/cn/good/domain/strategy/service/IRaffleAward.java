@@ -7,10 +7,11 @@ import java.util.List;
 /**
  * TODO
  *
- * @Description
+ * @Description 策略奖品
  * @Author wkm
  * @Date 2024/10/20
  **/
 public interface IRaffleAward {
     List<StrategyAwardEntity> queryRaffleStrategyAwardList(Long strategyId);
+    List<StrategyAwardEntity> queryRaffleStrategyAwardListByActivityId(Long activityId);
 }

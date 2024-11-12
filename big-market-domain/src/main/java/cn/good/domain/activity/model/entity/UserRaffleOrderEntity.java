@@ -26,5 +26,7 @@ public class UserRaffleOrderEntity {
     private Long strategyId;
     private String orderId;
     private Date orderTime;
+    /* 活动状态: create-创建 、used 已使用 、  cancel -已作废 */
     private UserRaffleOrderStateVO orderState;
+    private Date endDateTime;
 }

@@ -11,6 +11,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class RaffleAwardEntity {
     private Integer awardId;
+    private String awardTitle;
     private String awardConfig;
     private Integer sort;
 }

@@ -19,6 +19,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class UserAwardRecordAggregate {
-      private UserAwardRecordEntity userAwardRecordEntity ;
+      private UserAwardRecordEntity userAwardRecordEntity;
       private TaskEntity taskEntity;
 }

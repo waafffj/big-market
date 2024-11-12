@@ -5,13 +5,12 @@ import lombok.Data;
 /**
  * TODO
  *
- * @Description 抽奖奖品列表,请求对象
+ * @Description
  * @Author wkm
- * @Date 2024/10/20
+ * @Date 2024/11/6
  **/
 @Data
-public class RaffleAwardListRequestDTO {
+public class ActivityDrawRequestDTO {
     private String userId;
- /* 抽奖活动ID*/
     private Long activityId;
 }

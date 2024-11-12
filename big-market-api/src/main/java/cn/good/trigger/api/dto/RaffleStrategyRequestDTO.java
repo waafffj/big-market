@@ -10,6 +10,6 @@ import lombok.Data;
  * @Date 2024/10/20
  **/
 @Data
-public class RaffleRequestDTO {
+public class RaffleStrategyRequestDTO {
     private Long strategyId;
 }

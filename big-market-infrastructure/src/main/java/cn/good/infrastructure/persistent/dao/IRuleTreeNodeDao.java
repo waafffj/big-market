@@ -15,4 +15,5 @@ import java.util.List;
 @Mapper
 public interface IRuleTreeNodeDao {
     List<RuleTreeNode> queryRuleTreeNodeListByTreeId(String treeId);
+    List<RuleTreeNode> queryRuleLocks(String[] treeIds);
 }

@@ -10,15 +10,15 @@ import lombok.NoArgsConstructor;
  *
  * @Description
  * @Author wkm
- * @Date 2024/10/20
+ * @Date 2024/11/6
  **/
-
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class RaffleResponseDTO {
+public class ActivityDrawResponseDTO {
     private Integer awardId;
-    /* 排序编号 【策略奖品的顺序编号】*/
+    private String awardTitle;
+    /* 排序编号  */
     private Integer awardIndex;
 }

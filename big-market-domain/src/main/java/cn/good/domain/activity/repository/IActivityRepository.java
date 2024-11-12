@@ -6,6 +6,7 @@ import cn.good.domain.activity.model.entity.*;
 import cn.good.domain.activity.model.valobj.ActivitySkuStockKeyVO;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * TODO
@@ -31,4 +32,6 @@ public interface IActivityRepository {
     ActivityAccountMonthEntity queryActivityAccountMonthByUserId(String userId,Long activityId,String month);
     ActivityAccountDayEntity queryActivityAccountDayByUserId(String userId,Long activityId,String day);
     void saveCreatePartakeOrderAggregate(CreatePartakeOrderAggregate createPartakeOrderAggregate);
+    List<ActivitySkuEntity> queryActivitySkuListByActivityId(Long activityId);
+    Integer queryRaffleActivityAccountDayPartakeCount(Long activityId,String userId);
 }

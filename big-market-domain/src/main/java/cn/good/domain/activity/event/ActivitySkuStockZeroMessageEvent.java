@@ -16,7 +16,6 @@ import java.util.Date;
  **/
 @Component
 public class ActivitySkuStockZeroMessageEvent extends BaseEvent<Long> {
-    /* 发放sku long 类型的消息*/
     @Value("${spring.rabbitmq.topic.activity_sku_stock_zero}")
     private String topic;
     @Override

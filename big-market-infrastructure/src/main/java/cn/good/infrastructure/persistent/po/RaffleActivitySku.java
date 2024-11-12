@@ -7,7 +7,7 @@ import java.util.Date;
 /**
  * TODO
  *
- * @Description
+ * @Description 抽奖活动sku持久化对象
  * @Author wkm
  * @Date 2024/10/28
  **/

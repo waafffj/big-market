@@ -2,8 +2,8 @@ package cn.good.trigger.api;
 
 import cn.good.trigger.api.dto.RaffleAwardListRequestDTO;
 import cn.good.trigger.api.dto.RaffleAwardListResponseDTO;
-import cn.good.trigger.api.dto.RaffleRequestDTO;
-import cn.good.trigger.api.dto.RaffleResponseDTO;
+import cn.good.trigger.api.dto.RaffleStrategyRequestDTO;
+import cn.good.trigger.api.dto.RaffleStrategyResponseDTO;
 import cn.good.types.model.Response;
 
 import java.util.List;
@@ -15,7 +15,7 @@ import java.util.List;
  * @Author wkm
  * @Date 2024/10/20
  **/
-public interface IRaffleService {
+public interface IRaffleStrategyService {
 
     /**
      * 策略装配接口
@@ -38,5 +38,5 @@ public interface IRaffleService {
      * @param requestDTO 请求参数
      * @return 抽奖结果
      */
-    Response<RaffleResponseDTO> randomRaffle(RaffleRequestDTO requestDTO);
+    Response<RaffleStrategyResponseDTO> randomRaffle(RaffleStrategyRequestDTO requestDTO);
 }

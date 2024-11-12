@@ -19,7 +19,6 @@ import javax.annotation.Resource;
  * @Date 2024/11/4
  **/
 @Service
-
 public class AwardService implements IAwardService{
     @Resource
     private IAwardRepository awardRepository;

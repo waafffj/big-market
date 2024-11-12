@@ -12,7 +12,7 @@ import java.util.Date;
 /**
  * TODO
  *
- * @Description
+ * @Description 用户奖品记录
  * @Author wkm
  * @Date 2024/11/4
  **/
@@ -21,9 +21,10 @@ public class SendAwardMessageEvent extends BaseEvent<SendAwardMessageEvent.SendA
     @Value("${spring.rabbitmq.topic.send_award}")
     private String topic;
 
+
     @Override
-    public EventMessage<SendAwardMessageEvent.SendAwardMessage> buildEventMessage(SendAwardMessage data) {
-        return EventMessage.<SendAwardMessage>builder()
+    public EventMessage<SendAwardMessage> buildEventMessage(SendAwardMessage data) {
+           return EventMessage.<SendAwardMessage>builder()
                 .id(RandomStringUtils.randomNumeric(11))
                 .timestamp(new Date())
                 .data(data)
