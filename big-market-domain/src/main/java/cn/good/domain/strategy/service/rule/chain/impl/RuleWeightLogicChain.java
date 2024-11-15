@@ -28,8 +28,6 @@ public class RuleWeightLogicChain extends AbstractLogicChain {
      * 1. 权重规则格式；4000:102,103,104,105 5000:102,103,104,105,106,107 6000:102,103,104,105,106,107,108,109
      * 2. 解析数据格式；判断哪个范围符合用户的特定抽奖范围
      */
-
-
     @Override
     public DefaultChainFactory.StrategyAwardVO logic(String userId, Long strategyId) {
         log.info("抽奖责任链-权重开始 userId :{} strategyId :{} ruleModel :{}",userId,strategyId,ruleModel());
