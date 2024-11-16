@@ -1,5 +1,6 @@
 package cn.good.domain.activity.service;
 
+import cn.good.domain.activity.model.entity.ActivityAccountEntity;
 import cn.good.domain.activity.model.entity.SkuRechargeEntity;
 
 /**
@@ -19,6 +20,14 @@ public interface IRaffleActivityAccountQuotaService {
      */
 
     String createOrder(SkuRechargeEntity skuRechargeEntity);
+
+    /**
+     * 查询活动账户
+     * @param activityId
+     * @param userId
+     * @return
+     */
+    Integer queryRaffleActivityAccountPartakeCount(Long activityId,String userId);
     /**
      * 查询活动账户 - 日，参与次数
      *
@@ -27,4 +36,13 @@ public interface IRaffleActivityAccountQuotaService {
      * @return 参与次数
      */
     Integer queryRaffleActivityAccountDayPartakeCount(Long activityId,String userId);
+
+
+    /**
+     * 查询活动账户额度
+     * @param activityId
+     * @param userId
+     * @return
+     */
+    ActivityAccountEntity queryActivityAccountEntity(Long activityId,String userId);
 }

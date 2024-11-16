@@ -2,6 +2,8 @@ package cn.good.trigger.api;
 
 import cn.good.trigger.api.dto.ActivityDrawRequestDTO;
 import cn.good.trigger.api.dto.ActivityDrawResponseDTO;
+import cn.good.trigger.api.dto.UserActivityAccountRequestDTO;
+import cn.good.trigger.api.dto.UserActivityAccountResponseDTO;
 import cn.good.types.model.Response;
 
 /**
@@ -33,5 +35,22 @@ public interface IRaffleActivityService {
      * @return 签到结果
      */
     Response<Boolean> calendarSignRebate(String userId);
+
+
+    /**
+     * 判断是否完成日历签到返利接口
+     *
+     * @param userId 用户ID
+     * @return 签到结果 true 已签到，false 未签到
+     */
+
+    Response<Boolean> isCalendarSignRebate(String userId);
+
+    /**
+     * 查询用户活动账户
+     * @param request
+     * @return
+     */
+    Response<UserActivityAccountResponseDTO> queryUserActivityAccount(UserActivityAccountRequestDTO request);
 
 }

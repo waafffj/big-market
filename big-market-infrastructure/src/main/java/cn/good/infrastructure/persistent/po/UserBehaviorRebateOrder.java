@@ -21,6 +21,8 @@ public class UserBehaviorRebateOrder {
     private String rebateDesc;
     private String rebateType;
     private String rebateConfig;
+    /* 业务防重ID 外部透传、方便查询使用*/
+    private String outBusinessNo;
     /* 业务Id 拼接的唯一值*/
     private String bizId;
     private Date createTime;

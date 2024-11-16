@@ -20,4 +20,9 @@
             user_id, order_id, behavior_type, rebate_desc, rebate_type, rebate_config, biz_id, create_time, update_time
         ) values(#{userId}, #{orderId}, #{behaviorType}, #{rebateDesc}, #{rebateType}, #{rebateConfig}, #{bizId}, now(), now())
     </insert>
+    <select id="queryOrderByOutBusinessNo" parameterType="cn.good.infrastructure.persistent.po.UserBehaviorRebateOrder" resultMap="dataMap">
+        select user_id, order_id, behavior_type, rebate_desc, rebate_type, rebate_config, out_business_no, biz_id
+        from user_behavior_rebate_order
+        where user_id = #{userId} and out_business_no = #{outBusinessNo}
+    </select>
 </mapper>
