@@ -24,7 +24,6 @@ import org.springframework.transaction.support.TransactionTemplate;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 /**
@@ -54,12 +53,13 @@ public class BehaviorRebateRepository implements IBehaviorRebateRepository {
         List<DailyBehaviorRebate> dailyBehaviorRebates = dailyBehaviorRebateDao.queryDailyBehaviorRebateByBehaviorType(behaviorTypeVO.getCode());
         List<DailyBehaviorRebateVO> dailyBehaviorRebateVOS = new ArrayList<>(dailyBehaviorRebates.size());
         for(DailyBehaviorRebate dailyBehaviorRebate : dailyBehaviorRebates){
-            dailyBehaviorRebateVOS.add(DailyBehaviorRebateVO.builder()
+            DailyBehaviorRebateVO dailyBehaviorRebateVO = DailyBehaviorRebateVO.builder()
                     .behaviorType(dailyBehaviorRebate.getBehaviorType())
                     .rebateDesc(dailyBehaviorRebate.getRebateDesc())
                     .rebateType(dailyBehaviorRebate.getRebateType())
                     .rebateConfig(dailyBehaviorRebate.getRebateConfig())
-                    .build());
+                    .build();
+            dailyBehaviorRebateVOS.add(dailyBehaviorRebateVO);
         }
         return dailyBehaviorRebateVOS;
     }

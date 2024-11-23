@@ -24,18 +24,24 @@ public class StrategyArmoryDispatch implements IStrategyArmory,IStrategyDispatch
     private final SecureRandom secureRandom = new SecureRandom();
 
     @Override
+    public boolean assembleLotteryStrategyByActivityId(Long activityId) {
+        Long strategyId = repository.queryStrategyIdByActivityId(activityId);
+        return assembleLotteryStrategy(strategyId);
+    }
+
+    @Override
     public boolean assembleLotteryStrategy(Long strategyId) {
         // 1. 查询策略配置
         List<StrategyAwardEntity> strategyAwardEntities = repository.queryStrategyAwardList(strategyId);
 
-        /* 2 缓存奖品库存  用于decr扣减库存使用  */
+        // 2 缓存奖品库存【用于decr扣减库存使用】
         for (StrategyAwardEntity strategyAward : strategyAwardEntities) {
             Integer awardId = strategyAward.getAwardId();
-            Integer awardCount = strategyAward.getAwardCount();
+            Integer awardCount = strategyAward.getAwardCountSurplus();
             cacheStrategyAwardCount(strategyId, awardId, awardCount);
         }
 
-        // 3.1 默认装配配置   全量抽奖概率
+        // 3.1 默认装配配置【全量抽奖概率】
         assembleLotteryStrategy(String.valueOf(strategyId), strategyAwardEntities);
 
         // 3.2 权重策略配置 - 适用于 rule_weight 权重规则配置【4000:102,103,104,105 5000:102,103,104,105,106,107 6000:102,103,104,105,106,107,108,109】
@@ -56,13 +62,8 @@ public class StrategyArmoryDispatch implements IStrategyArmory,IStrategyDispatch
             strategyAwardEntitiesClone.removeIf(entity -> !ruleWeightValues.contains(entity.getAwardId()));
             assembleLotteryStrategy(String.valueOf(strategyId).concat(Constants.UNDERLINE).concat(key), strategyAwardEntitiesClone);
         }
-        return true;
-    }
 
-    @Override
-    public boolean assembleLotteryStrategyByActivityId(Long activityId) {
-        Long strategyId = repository.queryStrategyIdByActivityId(activityId);
-        return assembleLotteryStrategy(strategyId);
+        return true;
     }
 
     /**
@@ -110,7 +111,8 @@ public class StrategyArmoryDispatch implements IStrategyArmory,IStrategyDispatch
      * 转换计算，只根据小数位来计算。如【0.01返回100】、【0.009返回1000】、【0.0018返回10000】
      */
     private double convert(double min) {
-        if(0 == min) return 1D;
+        if (0 == min) return 1D;
+
         double current = min;
         double max = 1;
         while (current < 1) {
@@ -126,7 +128,6 @@ public class StrategyArmoryDispatch implements IStrategyArmory,IStrategyDispatch
      * @param strategyId 策略ID
      * @param awardId    奖品ID
      * @param awardCount 奖品库存
-     *  格式: strategy_award_count_key + strategyId(100001) + _ + awardId(101、102...)
      */
     private void cacheStrategyAwardCount(Long strategyId, Integer awardId, Integer awardCount) {
         String cacheKey = Constants.RedisKey.STRATEGY_AWARD_COUNT_KEY + strategyId + Constants.UNDERLINE + awardId;
@@ -156,9 +157,10 @@ public class StrategyArmoryDispatch implements IStrategyArmory,IStrategyDispatch
     }
 
     @Override
-    public Boolean subtractionAwardStock(Long strategyId, Integer awardId,Date endDateTime) {
+    public Boolean subtractionAwardStock(Long strategyId, Integer awardId, Date endDateTime) {
         String cacheKey = Constants.RedisKey.STRATEGY_AWARD_COUNT_KEY + strategyId + Constants.UNDERLINE + awardId;
-        return repository.subtractionAwardStock(cacheKey,endDateTime);
+        return repository.subtractionAwardStock(cacheKey, endDateTime);
     }
+
 
 }

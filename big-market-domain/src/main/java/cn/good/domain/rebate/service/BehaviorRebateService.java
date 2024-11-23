@@ -15,7 +15,6 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 /**
@@ -34,10 +33,9 @@ public class BehaviorRebateService implements IBehaviorRebateService{
     private SendRebateMessageEvent sendRebateMessageEvent;
     @Override
     public List<String> createOrder(BehaviorEntity behaviorEntity) {
-        /* 查询返利配置 */
+        /* 查询返利配置*/
         List<DailyBehaviorRebateVO> dailyBehaviorRebateVOS = behaviorRebateRepository.queryDailyBehaviorRebateConfig(behaviorEntity.getBehaviorTypeVO());
         if(null == dailyBehaviorRebateVOS || dailyBehaviorRebateVOS.isEmpty()) return new ArrayList<>();
-
         /* 构建聚合对象 */
         List<String> orderIds = new ArrayList<>();
         List<BehaviorRebateAggregate> behaviorRebateAggregates = new ArrayList<>();
@@ -54,7 +52,6 @@ public class BehaviorRebateService implements IBehaviorRebateService{
                     .build();
             orderIds.add(behaviorRebateOrderEntity.getOrderId());
 
-
             /* MQ消息 */
             SendRebateMessageEvent.RebateMessage rebateMessage = SendRebateMessageEvent.RebateMessage.builder()
                     .userId(behaviorEntity.getUserId())
@@ -66,7 +63,7 @@ public class BehaviorRebateService implements IBehaviorRebateService{
             /* 构建事件消息 */
             BaseEvent.EventMessage<SendRebateMessageEvent.RebateMessage> rebateMessageEventMessage = sendRebateMessageEvent.buildEventMessage(rebateMessage);
 
-            /* 组装任务对象 */
+            /* 组装任务 */
             TaskEntity taskEntity = new TaskEntity();
             taskEntity.setUserId(behaviorEntity.getUserId());
             taskEntity.setTopic(sendRebateMessageEvent.topic());
@@ -81,8 +78,8 @@ public class BehaviorRebateService implements IBehaviorRebateService{
                     .build();
             behaviorRebateAggregates.add(behaviorRebateAggregate);
         }
-        /* 存储聚合对象  */
-        behaviorRebateRepository.saveUserRebateRecord(behaviorEntity.getUserId(),behaviorRebateAggregates);
+        /* 存储聚合对象 */
+        behaviorRebateRepository.saveUserRebateRecord(behaviorEntity.getUserId(), behaviorRebateAggregates);
         return orderIds;
     }
 

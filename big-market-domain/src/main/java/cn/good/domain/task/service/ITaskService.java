@@ -17,6 +17,6 @@ public interface ITaskService {
      */
     List<TaskEntity> queryNoSendMessageTaskList();
     void sendMessage(TaskEntity taskEntity);
-    void updateTaskSendmessageCompleted(String userId,String messageId);
-    void updateTaskSendmessageFail(String userId,String messageId);
+    void updateTaskSendMessageCompleted(String userId,String messageId);
+    void updateTaskSendMessageFail(String userId,String messageId);
 }

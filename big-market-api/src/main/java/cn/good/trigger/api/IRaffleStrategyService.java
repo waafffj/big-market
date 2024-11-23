@@ -23,19 +23,19 @@ public interface IRaffleStrategyService {
 
     /**
      * 查询抽奖奖品列表
-     * @param requestDTO 抽奖奖品列表查询请求参数
+     * @param request 抽奖奖品列表查询请求参数
      * @return 奖品列表数据
      */
 
-    Response<List<RaffleAwardListResponseDTO>> queryRaffleAwardList(RaffleAwardListRequestDTO requestDTO);
+    Response<List<RaffleAwardListResponseDTO>> queryRaffleAwardList(RaffleAwardListRequestDTO request);
 
 
     /**
      * 随机抽奖接口
-     * @param requestDTO 请求参数
+     * @param request 请求参数
      * @return 抽奖结果
      */
-    Response<RaffleStrategyResponseDTO> randomRaffle(RaffleStrategyRequestDTO requestDTO);
+    Response<RaffleStrategyResponseDTO> randomRaffle(RaffleStrategyRequestDTO request);
 
     /**
      * 查询抽奖策略权重规则，给用户展示出抽奖N次后必中奖奖品范围

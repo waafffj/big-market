@@ -49,10 +49,10 @@ public class SendMessageTaskJob {
                             executor.execute(() -> {
                                 try {
                                     taskService.sendMessage(taskEntity);
-                                    taskService.updateTaskSendmessageCompleted(taskEntity.getUserId(), taskEntity.getMessageId());
+                                    taskService.updateTaskSendMessageCompleted(taskEntity.getUserId(), taskEntity.getMessageId());
                                 } catch (Exception e) {
                                     log.error("定时任务，发送MQ消息失败 userId: {} topic: {}", taskEntity.getUserId(), taskEntity.getTopic());
-                                    taskService.updateTaskSendmessageFail(taskEntity.getUserId(), taskEntity.getMessageId());
+                                    taskService.updateTaskSendMessageFail(taskEntity.getUserId(), taskEntity.getMessageId());
                                 }
                             });
                         }

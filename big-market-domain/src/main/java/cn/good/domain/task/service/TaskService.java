@@ -30,12 +30,12 @@ public class TaskService implements ITaskService{
     }
 
     @Override
-    public void updateTaskSendmessageCompleted(String userId, String messageId) {
+    public void updateTaskSendMessageCompleted(String userId, String messageId) {
         taskRepository.updateTaskSendMessageCompleted(userId,messageId);
     }
 
     @Override
-    public void updateTaskSendmessageFail(String userId, String messageId) {
+    public void updateTaskSendMessageFail(String userId, String messageId) {
         taskRepository.updateTaskSendMessageFail(userId, messageId);
     }
 }
