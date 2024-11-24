@@ -30,6 +30,7 @@ public class StrategyRuleEntity {
     public Map<String, List<Integer>> getRuleWeightValues(){
         if(!"rule_weight".equals(ruleModel)) return null;
         String [] ruleValueGroups = ruleValue.split(Constants.SPACE); //空格分割
+        /* ruleValueGroups = ["4000:102,103,104,105","5000:102,103,104,105,106,107"]*/
         Map<String,List<Integer>> resultMap = new HashMap<>();
         for(String ruleValueGroup : ruleValueGroups ){
             if(ruleValueGroup == null || ruleValueGroup.isEmpty()){
@@ -40,11 +41,12 @@ public class StrategyRuleEntity {
                 throw new IllegalArgumentException("rule_weight rule_rule invalid input format" + ruleValueGroup);
             }
 
-            String [] valueStrings = parts[1].split(Constants.SPLIT);
+            String [] valueStrings = parts[1].split(Constants.SPLIT); // 逗号分割
             List<Integer> values = new ArrayList<>();
             for(String valueString : valueStrings ){
                 values.add(Integer.parseInt(valueString));
             }
+            /*ruleValueGroup = "4000:102,103,104,105" */
             resultMap.put(ruleValueGroup,values);
         }
         return resultMap;

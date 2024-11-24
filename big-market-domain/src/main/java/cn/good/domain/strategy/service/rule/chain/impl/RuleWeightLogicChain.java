@@ -35,7 +35,7 @@ public class RuleWeightLogicChain extends AbstractLogicChain {
         /* 4000 ,  "4000:102,103,104,105"*/
         Map<Long,String> analyticalValueGroup = getAnalyticalValue(ruleValue);
         if(null == analyticalValueGroup || analyticalValueGroup.isEmpty()) {
-            log.warn("抽奖责任链-权重告警【策略配置权重，但rulevalue未配置相应值】 userId :{} strategyId :{} ruleModel :{}",userId,strategyId,ruleModel());
+            log.warn("抽奖责任链-权重告警【策略配置权重，但ruleValue未配置相应值】 userId :{} strategyId :{} ruleModel :{}",userId,strategyId,ruleModel());
             return next().logic(userId,strategyId);
         }
         List<Long> analyticalSortedKeys = new ArrayList<>(analyticalValueGroup.keySet());
