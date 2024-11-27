@@ -30,13 +30,14 @@ public class DecisionTreeEngine implements IDecisionTreeEngine {
     public DefaultTreeFactory.StrategyAwardVO process(String userId, Long strategyId, Integer awardId, Date endDateTime) {
         DefaultTreeFactory.StrategyAwardVO strategyAwardData = null;
         // 获取基础信息
-
+        /* 获取树根 */
         String nextnode = ruleTreeVO.getTreeRootRuleNode();
+
         Map<String, RuleTreeNodeVO> treeNodeMap = ruleTreeVO.getTreeNodeMap();
         // 获取起始节点「根节点记录了第一个要执行的规则」
         RuleTreeNodeVO ruleTreeNode = treeNodeMap.get(nextnode);
         while(null != nextnode){
-            // 获取决策节点
+            // 获取决策节点的rule_key
             ILogicTreeNode logicTreeNode = logicTreeNodeGroup.get(ruleTreeNode.getRuleKey());
             String ruleValue = ruleTreeNode.getRuleValue();
             // 决策节点计算
@@ -52,6 +53,7 @@ public class DecisionTreeEngine implements IDecisionTreeEngine {
         return strategyAwardData;
     }
 
+    /* matterValue是当前的rule_key*/
     public String nextnode(String matterValue, List<RuleTreeNodeLineVO> treeNodeLineVOList){
         if(null == treeNodeLineVOList || treeNodeLineVOList.isEmpty()) return null;
         for(RuleTreeNodeLineVO nodeLine : treeNodeLineVOList){

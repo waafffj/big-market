@@ -16,9 +16,11 @@ import java.util.Map;
 public class DefaultTreeFactory {
     private final Map<String,ILogicTreeNode> logicTreeNodeGroup;
 
-    public DefaultTreeFactory(Map<String,ILogicTreeNode> logicTreeNodeGroup) {
+    public DefaultTreeFactory(Map<String, ILogicTreeNode> logicTreeNodeGroup) {
         this.logicTreeNodeGroup = logicTreeNodeGroup;
     }
+
+    /* 决策树引擎的创建 */
     public IDecisionTreeEngine openLogicTree(RuleTreeVO ruleTreeVO){
         return new DecisionTreeEngine(logicTreeNodeGroup,ruleTreeVO);
     }
@@ -38,7 +40,6 @@ public class DefaultTreeFactory {
     @NoArgsConstructor
     public static class StrategyAwardVO{
         private Integer awardId;
-        /*   抽奖奖品规则  */
         private String awardRuleValue;
     }
 }

@@ -402,4 +402,5 @@ public class StrategyRepository implements IStrategyRepository{
 
         return ruleWeightVOS;
     }
+
 }
