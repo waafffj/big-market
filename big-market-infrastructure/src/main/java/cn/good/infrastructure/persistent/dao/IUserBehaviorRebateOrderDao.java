@@ -17,7 +17,9 @@ import java.util.List;
 @Mapper
 @DBRouterStrategy(splitTable = true)
 public interface IUserBehaviorRebateOrderDao {
+
     void insert(UserBehaviorRebateOrder userBehaviorRebateOrder);
     @DBRouter
     List<UserBehaviorRebateOrder> queryOrderByOutBusinessNo(UserBehaviorRebateOrder userBehaviorRebateOrderReq);
+
 }

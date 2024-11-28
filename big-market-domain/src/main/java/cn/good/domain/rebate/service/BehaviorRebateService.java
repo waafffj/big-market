@@ -33,13 +33,15 @@ public class BehaviorRebateService implements IBehaviorRebateService{
     private SendRebateMessageEvent sendRebateMessageEvent;
     @Override
     public List<String> createOrder(BehaviorEntity behaviorEntity) {
-        /* 查询返利配置*/
+        // 1. 查询返利配置
         List<DailyBehaviorRebateVO> dailyBehaviorRebateVOS = behaviorRebateRepository.queryDailyBehaviorRebateConfig(behaviorEntity.getBehaviorTypeVO());
-        if(null == dailyBehaviorRebateVOS || dailyBehaviorRebateVOS.isEmpty()) return new ArrayList<>();
-        /* 构建聚合对象 */
+        if (null == dailyBehaviorRebateVOS || dailyBehaviorRebateVOS.isEmpty()) return new ArrayList<>();
+
+        // 2. 构建聚合对象
         List<String> orderIds = new ArrayList<>();
         List<BehaviorRebateAggregate> behaviorRebateAggregates = new ArrayList<>();
-        for(DailyBehaviorRebateVO dailyBehaviorRebateVO : dailyBehaviorRebateVOS){
+        for (DailyBehaviorRebateVO dailyBehaviorRebateVO : dailyBehaviorRebateVOS) {
+            // 拼装业务ID；用户ID_返利类型_外部透彻业务ID
             String bizId = behaviorEntity.getUserId() + Constants.UNDERLINE + dailyBehaviorRebateVO.getRebateType() + Constants.UNDERLINE + behaviorEntity.getOutBusinessNo();
             BehaviorRebateOrderEntity behaviorRebateOrderEntity = BehaviorRebateOrderEntity.builder()
                     .userId(behaviorEntity.getUserId())
@@ -48,11 +50,12 @@ public class BehaviorRebateService implements IBehaviorRebateService{
                     .rebateDesc(dailyBehaviorRebateVO.getRebateDesc())
                     .rebateType(dailyBehaviorRebateVO.getRebateType())
                     .rebateConfig(dailyBehaviorRebateVO.getRebateConfig())
+                    .outBusinessNo(behaviorEntity.getOutBusinessNo())
                     .bizId(bizId)
                     .build();
             orderIds.add(behaviorRebateOrderEntity.getOrderId());
 
-            /* MQ消息 */
+            // MQ 消息对象
             SendRebateMessageEvent.RebateMessage rebateMessage = SendRebateMessageEvent.RebateMessage.builder()
                     .userId(behaviorEntity.getUserId())
                     .rebateType(dailyBehaviorRebateVO.getRebateType())
@@ -60,10 +63,10 @@ public class BehaviorRebateService implements IBehaviorRebateService{
                     .bizId(bizId)
                     .build();
 
-            /* 构建事件消息 */
+            // 构建事件消息
             BaseEvent.EventMessage<SendRebateMessageEvent.RebateMessage> rebateMessageEventMessage = sendRebateMessageEvent.buildEventMessage(rebateMessage);
 
-            /* 组装任务 */
+            // 组装任务对象
             TaskEntity taskEntity = new TaskEntity();
             taskEntity.setUserId(behaviorEntity.getUserId());
             taskEntity.setTopic(sendRebateMessageEvent.topic());
@@ -76,11 +79,16 @@ public class BehaviorRebateService implements IBehaviorRebateService{
                     .behaviorRebateOrderEntity(behaviorRebateOrderEntity)
                     .taskEntity(taskEntity)
                     .build();
+
             behaviorRebateAggregates.add(behaviorRebateAggregate);
         }
-        /* 存储聚合对象 */
+
+        // 3. 存储聚合对象数据
         behaviorRebateRepository.saveUserRebateRecord(behaviorEntity.getUserId(), behaviorRebateAggregates);
+
+        // 4. 返回订单ID集合
         return orderIds;
+
     }
 
     @Override
