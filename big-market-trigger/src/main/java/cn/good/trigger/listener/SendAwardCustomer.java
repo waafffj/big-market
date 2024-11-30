@@ -18,7 +18,7 @@ import javax.annotation.Resource;
 /**
  * TODO
  *
- * @Description
+ * @Description 用户奖品记录消息消费者
  * @Author wkm
  * @Date 2024/11/4
  **/
@@ -39,6 +39,7 @@ public class SendAwardCustomer {
             }.getType());
             SendAwardMessageEvent.SendAwardMessage sendAwardMessage = eventMessage.getData();
 
+            /* 发放奖品*/
             DistributeAwardEntity distributeAwardEntity = new DistributeAwardEntity();
             distributeAwardEntity.setUserId(sendAwardMessage.getUserId());
             distributeAwardEntity.setOrderId(sendAwardMessage.getOrderId());
@@ -47,7 +48,6 @@ public class SendAwardCustomer {
             awardService.distributeAward(distributeAwardEntity);
         } catch (Exception e) {
             log.error("监听用户奖品发送消息，消费失败 topic: {} message: {}", topic, message);
-            throw e;
         }
 
     }

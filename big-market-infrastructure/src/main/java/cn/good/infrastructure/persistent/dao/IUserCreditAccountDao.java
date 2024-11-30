@@ -6,7 +6,7 @@ import org.apache.ibatis.annotations.Mapper;
 /**
  * TODO
  *
- * @Description
+ * @Description 用户积分账户
  * @Author wkm
  * @Date 2024/11/29
  **/
@@ -14,4 +14,5 @@ import org.apache.ibatis.annotations.Mapper;
 public interface IUserCreditAccountDao {
     void insert(UserCreditAccount userCreditAccountReq);
     int updateAddAmount(UserCreditAccount userCreditAccountReq);
+    UserCreditAccount queryUserCreditAccount(UserCreditAccount userCreditAccountReq);
 }
