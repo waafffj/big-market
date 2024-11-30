@@ -21,7 +21,7 @@ import java.util.Date;
 @NoArgsConstructor
 public class RaffleActivityAccountDay {
     private final static SimpleDateFormat dateFormatDay = new SimpleDateFormat("yyyy-MM-dd");
-    private String id;
+    private Long id;
     private String userId;
     private Long activityId;
     /*   日期(yyyy-mm-dd)     */

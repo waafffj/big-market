@@ -1,5 +1,6 @@
 package cn.good.test.domain.award;
 
+import cn.good.domain.award.model.entity.DistributeAwardEntity;
 import cn.good.domain.award.model.entity.UserAwardRecordEntity;
 import cn.good.domain.award.model.valobj.AwardStateVO;
 import cn.good.domain.award.service.IAwardService;
@@ -48,6 +49,16 @@ public class AwardServiceTest {
             Thread.sleep(500);
         }
         new CountDownLatch( 1).await();
+    }
+
+    @Test
+    public void test_distributeAward(){
+        DistributeAwardEntity distributeAwardEntity = new DistributeAwardEntity();
+        distributeAwardEntity.setUserId("xiaofuge");
+        distributeAwardEntity.setOrderId("6970123445");
+        distributeAwardEntity.setAwardId(101);
+        distributeAwardEntity.setAwardConfig("0.01,1");
+        awardService.distributeAward(distributeAwardEntity);
     }
 
 }

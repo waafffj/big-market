@@ -21,7 +21,7 @@ import java.util.Date;
 @NoArgsConstructor
 public class RaffleActivityAccountMonth {
     private final static SimpleDateFormat dateFormatMonth = new SimpleDateFormat("yyyy-MM");
-    private String id;
+    private Long id;
     private String userId;
     private Long activityId;
     /*  月(yyyy-mm)   */

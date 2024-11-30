@@ -70,11 +70,11 @@ public class RaffleActivityController implements IRaffleActivityService {
      * @param activityId 活动ID
      * @return 装配结果
      * <p>
-     * 接口：<a href="http://localhost:8091/api/v1/raffle/activity/armory">/api/v1/raffle/activity/armory</a>
+     * 接口：<a href="http://localhost:3000/api/v1/raffle/activity/armory">/api/v1/raffle/activity/armory</a>
      * 入参：{"activityId":100001,"userId":"xiaofuge"}
      * <p>
      * curl --request GET \
-     * --url 'http://localhost:8091/api/v1/raffle/activity/armory?activityId=100301'
+     * --url 'http://localhost:3000/api/v1/raffle/activity/armory?activityId=100301'
      */
     @RequestMapping(value = "armory", method = RequestMethod.GET)
     @Override
@@ -107,11 +107,11 @@ public class RaffleActivityController implements IRaffleActivityService {
      * @param request 请求对象
      * @return 抽奖结果
      * <p>
-     * 接口：<a href="http://localhost:8091/api/v1/raffle/activity/draw">/api/v1/raffle/activity/draw</a>
+     * 接口：<a href="http://localhost:1000/api/v1/raffle/activity/draw">/api/v1/raffle/activity/draw</a>
      * 入参：{"activityId":100001,"userId":"xiaofuge"}
      * <p>
      * curl --request POST \
-     * --url http://localhost:8091/api/v1/raffle/activity/draw \
+     * --url http://localhost:1000/api/v1/raffle/activity/draw \
      * --header 'content-type: application/json' \
      * --data '{
      * "userId":"xiaofuge",
@@ -146,6 +146,7 @@ public class RaffleActivityController implements IRaffleActivityService {
                     .awardTitle(raffleAwardEntity.getAwardTitle())
                     .awardTime(new Date())
                     .awardState(AwardStateVO.create)
+                    .awardConfig(raffleAwardEntity.getAwardConfig())
                     .build();
             awardService.saveUserAwardRecord(userAwardRecord);
             // 5. 返回结果
