@@ -62,3 +62,28 @@
 24-11-30.15:44:11.705 [SpringApplicationShutdownHook] INFO  SimpleMessageListenerContainer - Shutdown ignored - container is already stopped
 24-11-30.15:44:11.705 [SpringApplicationShutdownHook] INFO  SimpleMessageListenerContainer - Shutdown ignored - container is already stopped
 24-11-30.15:44:11.705 [SpringApplicationShutdownHook] INFO  SimpleMessageListenerContainer - Shutdown ignored - container is already stopped
+24-11-30.22:03:31.162 [main            ] INFO  CreditAdjustServiceTest - Starting CreditAdjustServiceTest using Java 1.8.0_412 on 小茗 with PID 7152 (started by 37608 in D:\SpringBoot\xiaofuge\big-market\big-market-app)
+24-11-30.22:03:31.164 [main            ] INFO  CreditAdjustServiceTest - The following 1 profile is active: "dev"
+24-11-30.22:03:34.064 [main            ] INFO  RepositoryConfigurationDelegate - Multiple Spring Data modules found, entering strict repository configuration mode
+24-11-30.22:03:34.073 [main            ] INFO  RepositoryConfigurationDelegate - Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+24-11-30.22:03:34.200 [main            ] INFO  RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 87 ms. Found 0 Redis repository interfaces.
+24-11-30.22:03:38.666 [main            ] INFO  Version                - Redisson 3.26.0
+24-11-30.22:03:39.892 [redisson-netty-1-4] INFO  ConnectionsHolder      - 1 connections initialized for 127.0.0.1/127.0.0.1:6379
+24-11-30.22:03:39.919 [redisson-netty-1-13] INFO  ConnectionsHolder      - 5 connections initialized for 127.0.0.1/127.0.0.1:6379
+24-11-30.22:03:48.832 [main            ] INFO  EndpointLinksResolver  - Exposing 1 endpoint(s) beneath base path '/actuator'
+24-11-30.22:03:49.076 [main            ] INFO  CachingConnectionFactory - Attempting to connect to: [117.72.123.31:5672]
+24-11-30.22:03:49.529 [main            ] INFO  CachingConnectionFactory - Created new connection: rabbitConnectionFactory#2c34402:0/SimpleConnection@729d6ee2 [delegate=amqp://admin@117.72.123.31:5672/, localPort= 61624]
+24-11-30.22:03:50.778 [main            ] INFO  CreditAdjustServiceTest - Started CreditAdjustServiceTest in 21.027 seconds (JVM running for 24.383)
+24-11-30.22:03:51.452 [main            ] INFO  CreditAdjustService    - 增加账户积分额度开始 userId:xiaofuge tradeName:REBATE amount:10.19
+24-11-30.22:03:51.559 [main            ] INFO  HikariDataSource       - Retail_HikariCP - Starting...
+24-11-30.22:03:52.334 [main            ] INFO  HikariDataSource       - Retail_HikariCP - Start completed.
+24-11-30.22:03:52.591 [main            ] INFO  CreditAdjustService    - 增加账户积分额度完成 userId:xiaofuge orderId:181909469453
+24-11-30.22:03:52.681 [org.springframework.amqp.rabbit.RabbitListenerEndpointContainer#0-2] INFO  SimpleMessageListenerContainer - Waiting for workers to finish.
+24-11-30.22:03:52.735 [org.springframework.amqp.rabbit.RabbitListenerEndpointContainer#1-2] INFO  SimpleMessageListenerContainer - Waiting for workers to finish.
+24-11-30.22:03:52.789 [org.springframework.amqp.rabbit.RabbitListenerEndpointContainer#2-2] INFO  SimpleMessageListenerContainer - Waiting for workers to finish.
+24-11-30.22:03:53.245 [org.springframework.amqp.rabbit.RabbitListenerEndpointContainer#0-2] INFO  SimpleMessageListenerContainer - Successfully waited for workers to finish.
+24-11-30.22:03:53.521 [org.springframework.amqp.rabbit.RabbitListenerEndpointContainer#1-2] INFO  SimpleMessageListenerContainer - Successfully waited for workers to finish.
+24-11-30.22:03:53.799 [org.springframework.amqp.rabbit.RabbitListenerEndpointContainer#2-2] INFO  SimpleMessageListenerContainer - Successfully waited for workers to finish.
+24-11-30.22:03:53.804 [SpringApplicationShutdownHook] INFO  SimpleMessageListenerContainer - Shutdown ignored - container is already stopped
+24-11-30.22:03:53.805 [SpringApplicationShutdownHook] INFO  SimpleMessageListenerContainer - Shutdown ignored - container is already stopped
+24-11-30.22:03:53.805 [SpringApplicationShutdownHook] INFO  SimpleMessageListenerContainer - Shutdown ignored - container is already stopped
