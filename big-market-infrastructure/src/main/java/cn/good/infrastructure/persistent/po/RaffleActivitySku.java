@@ -2,6 +2,7 @@ package cn.good.infrastructure.persistent.po;
 
 import lombok.Data;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
 /**
@@ -22,6 +23,8 @@ public class RaffleActivitySku {
     private Integer stockCount;
     /*  剩余库存    */
     private Integer stockCountSurplus;
+    /* 商品金额 */
+    private BigDecimal productAmount;
     private Date createTime;
     private Date updateTime;
 }

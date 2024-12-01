@@ -1,5 +1,6 @@
 package cn.good.domain.activity.model.entity;
 
+import cn.good.domain.activity.model.valobj.OrderTradeTypeVO;
 import lombok.Data;
 
 /**
@@ -10,7 +11,6 @@ import lombok.Data;
  * @Date 2024/10/28
  **/
 @Data
-
 public class SkuRechargeEntity {
     private String userId;
     /** 商品SKU - activity + activity count */
@@ -19,4 +19,5 @@ public class SkuRechargeEntity {
      *幂等业务单号，外部谁充值谁透传
      */
     private String outBusinessNo;
+    private OrderTradeTypeVO orderTradeType = OrderTradeTypeVO.rebate_no_pay_trade;
 }

@@ -1,21 +1,22 @@
 package cn.good.trigger.listener;
+
 import cn.good.domain.activity.model.entity.SkuRechargeEntity;
+import cn.good.domain.activity.model.valobj.OrderTradeTypeVO;
 import cn.good.domain.activity.service.IRaffleActivityAccountQuotaService;
 import cn.good.domain.credit.model.entity.TradeEntity;
 import cn.good.domain.credit.model.valobj.TradeNameVO;
 import cn.good.domain.credit.model.valobj.TradeTypeVO;
 import cn.good.domain.credit.service.ICreditAdjustService;
 import cn.good.domain.rebate.event.SendRebateMessageEvent;
-import cn.good.domain.rebate.model.valobj.RebateTypeVO;
 import cn.good.types.enums.ResponseCode;
 import cn.good.types.event.BaseEvent;
 import cn.good.types.exception.AppException;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.TypeReference;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.annotation.Queue;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.beans.factory.annotation.Value;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
@@ -52,6 +53,7 @@ public class RebateMessageCustomer {
                     skuRechargeEntity.setUserId(rebateMessage.getUserId());
                     skuRechargeEntity.setSku(Long.valueOf(rebateMessage.getRebateConfig()));
                     skuRechargeEntity.setOutBusinessNo(rebateMessage.getBizId());
+                    skuRechargeEntity.setOrderTradeType(OrderTradeTypeVO.rebate_no_pay_trade);
                     raffleActivityAccountQuotaService.createOrder(skuRechargeEntity);
                     break;
                 case "integral":

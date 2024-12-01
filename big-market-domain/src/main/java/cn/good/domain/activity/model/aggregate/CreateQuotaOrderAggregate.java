@@ -1,6 +1,7 @@
 package cn.good.domain.activity.model.aggregate;
 
 import cn.good.domain.activity.model.entity.ActivityOrderEntity;
+import cn.good.domain.activity.model.valobj.OrderStateVO;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -26,4 +27,7 @@ public class CreateQuotaOrderAggregate {
     private Integer dayCount;
     private Integer monthCount;
     private ActivityOrderEntity activityOrderEntity;
+    public void setOrderState(OrderStateVO orderState){
+        this.activityOrderEntity.setState(orderState);
+    }
 }
