@@ -56,8 +56,10 @@ public class AwardRepository implements IAwardRepository {
     private EventPublisher eventPublisher;
     @Resource
     private IRedisService redisService;
+
     @Override
     public void saveUserAwardRecord(UserAwardRecordAggregate userAwardRecordAggregate) {
+
         UserAwardRecordEntity userAwardRecordEntity = userAwardRecordAggregate.getUserAwardRecordEntity();
         TaskEntity taskEntity = userAwardRecordAggregate.getTaskEntity();
         String userId = userAwardRecordEntity.getUserId();
@@ -85,39 +87,43 @@ public class AwardRepository implements IAwardRepository {
         userRaffleOrderReq.setUserId(userAwardRecordEntity.getUserId());
         userRaffleOrderReq.setOrderId(userAwardRecordEntity.getOrderId());
 
-        try{
+        try {
             dbRouter.doRouter(userId);
             transactionTemplate.execute(status -> {
-                try{
-                    /* 写入记录 */
+                try {
+                    // 写入记录
                     userAwardRecordDao.insert(userAwardRecord);
-                    /* 写入任务 */
+                    // 写入任务
                     taskDao.insert(task);
+                    // 更新抽奖单
                     int count = userRaffleOrderDao.updateUserRaffleOrderStateUsed(userRaffleOrderReq);
-                    if(1 != count){
+                    if (1 != count) {
                         status.setRollbackOnly();
                         log.error("写入中奖记录，用户抽奖单已使用过，不可重复抽奖 userId: {} activityId: {} awardId: {}", userId, activityId, awardId);
                         throw new AppException(ResponseCode.ACTIVITY_ORDER_ERROR.getCode(), ResponseCode.ACTIVITY_ORDER_ERROR.getInfo());
                     }
                     return 1;
-                }catch (DuplicateKeyException e){
+                } catch (DuplicateKeyException e) {
                     status.setRollbackOnly();
-                    log.error("写入中奖记录，唯一索引冲突 userId :{} activityId:{} awardId:{}",userId,activityId,awardId);
-                    throw new AppException(ResponseCode.INDEX_DUP.getCode(),e);
+                    log.error("写入中奖记录，唯一索引冲突 userId: {} activityId: {} awardId: {}", userId, activityId, awardId, e);
+                    throw new AppException(ResponseCode.INDEX_DUP.getCode(), e);
                 }
             });
-        }finally {
+        } finally {
             dbRouter.clear();
         }
-        try{
-            /* 发送消息【在事务外执行，如果失败还有任务补偿】*/
+
+        try {
+            // 发送消息【在事务外执行，如果失败还有任务补偿】
             eventPublisher.publish(task.getTopic(), task.getMessage());
-            /* 更新数据库记录 task 任务表 */
+            // 更新数据库记录，task 任务表
             taskDao.updateTaskSendMessageCompleted(task);
-        }catch (Exception e){
+            log.info("写入中奖记录，发送MQ消息完成 userId: {} orderId:{} topic: {}", userId, userAwardRecordEntity.getOrderId(), task.getTopic());
+        } catch (Exception e) {
             log.error("写入中奖记录，发送MQ消息失败 userId: {} topic: {}", userId, task.getTopic());
             taskDao.updateTaskSendMessageFail(task);
         }
+
     }
 
     @Override
@@ -131,13 +137,13 @@ public class AwardRepository implements IAwardRepository {
         UserCreditAwardEntity userCreditAwardEntity = giveOutPrizesAggregate.getUserCreditAwardEntity();
         UserAwardRecordEntity userAwardRecordEntity = giveOutPrizesAggregate.getUserAwardRecordEntity();
 
-        /* 更新发奖记录*/
+        // 更新发奖记录
         UserAwardRecord userAwardRecordReq = new UserAwardRecord();
         userAwardRecordReq.setUserId(userId);
         userAwardRecordReq.setOrderId(userAwardRecordEntity.getOrderId());
         userAwardRecordReq.setAwardState(userAwardRecordEntity.getAwardState().getCode());
 
-        /* 更新用户积分*/
+        // 更新用户积分 「首次则插入数据」
         UserCreditAccount userCreditAccountReq = new UserCreditAccount();
         userCreditAccountReq.setUserId(userCreditAwardEntity.getUserId());
         userCreditAccountReq.setTotalAmount(userCreditAwardEntity.getCreditAmount());
@@ -145,34 +151,33 @@ public class AwardRepository implements IAwardRepository {
         userCreditAccountReq.setAccountStatus(AccountStatusVO.open.getCode());
 
         RLock lock = redisService.getLock(Constants.RedisKey.ACTIVITY_ACCOUNT_LOCK + userId);
-
-        try{
+        try {
             lock.lock(3, TimeUnit.SECONDS);
             dbRouter.doRouter(giveOutPrizesAggregate.getUserId());
             transactionTemplate.execute(status -> {
-                try{
-                    /* 更新积分或创建用户积分 */
+                try {
+                    // 更新积分 || 创建积分账户
                     UserCreditAccount userCreditAccountRes = userCreditAccountDao.queryUserCreditAccount(userCreditAccountReq);
-                    if(null == userCreditAccountRes){
+                    if (null == userCreditAccountRes) {
                         userCreditAccountDao.insert(userCreditAccountReq);
-                    }else{
+                    } else {
                         userCreditAccountDao.updateAddAmount(userCreditAccountReq);
                     }
 
-                    /* 更新奖品记录*/
+                    // 更新奖品记录
                     int updateAwardCount = userAwardRecordDao.updateAwardRecordCompletedState(userAwardRecordReq);
-                    if(0 == updateAwardCount){
+                    if (0 == updateAwardCount) {
                         log.warn("更新中奖记录，重复更新拦截 userId:{} giveOutPrizesAggregate:{}", userId, JSON.toJSONString(giveOutPrizesAggregate));
                         status.setRollbackOnly();
                     }
                     return 1;
-                }catch (DuplicateKeyException e){
+                } catch (DuplicateKeyException e) {
                     status.setRollbackOnly();
                     log.error("更新中奖记录，唯一索引冲突 userId: {} ", userId, e);
                     throw new AppException(ResponseCode.INDEX_DUP.getCode(), e);
                 }
             });
-        }finally {
+        } finally {
             dbRouter.clear();
             lock.unlock();
         }
@@ -182,4 +187,6 @@ public class AwardRepository implements IAwardRepository {
     public String queryAwardKey(Integer awardId) {
         return awardDao.queryAwardKeyByAwardId(awardId);
     }
+
+
 }

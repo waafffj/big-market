@@ -32,6 +32,7 @@ import java.math.BigDecimal;
 @Slf4j
 @Component
 public class RebateMessageCustomer {
+
     @Value("${spring.rabbitmq.topic.send_rebate}")
     private String topic;
     @Resource
@@ -40,14 +41,16 @@ public class RebateMessageCustomer {
     private ICreditAdjustService creditAdjustService;
 
     @RabbitListener(queuesToDeclare = @Queue(value = "${spring.rabbitmq.topic.send_rebate}"))
-    public void listener(String message){
-        try{
-            log.info("监听用户返利消息, topic:{} message:{}",topic,message);
-            BaseEvent.EventMessage<SendRebateMessageEvent.RebateMessage> eventMessage = JSON.parseObject(message,new TypeReference<BaseEvent.EventMessage<SendRebateMessageEvent.RebateMessage>>(){
+    public void listener(String message) {
+        try {
+            log.info("监听用户行为返利消息 topic: {} message: {}", topic, message);
+            // 1. 转换消息
+            BaseEvent.EventMessage<SendRebateMessageEvent.RebateMessage> eventMessage = JSON.parseObject(message, new TypeReference<BaseEvent.EventMessage<SendRebateMessageEvent.RebateMessage>>() {
             }.getType());
             SendRebateMessageEvent.RebateMessage rebateMessage = eventMessage.getData();
-            /* 入账奖励 */
-            switch (rebateMessage.getRebateType()){
+
+            // 2. 入账奖励
+            switch (rebateMessage.getRebateType()) {
                 case "sku":
                     SkuRechargeEntity skuRechargeEntity = new SkuRechargeEntity();
                     skuRechargeEntity.setUserId(rebateMessage.getUserId());
@@ -66,16 +69,16 @@ public class RebateMessageCustomer {
                     creditAdjustService.createOrder(tradeEntity);
                     break;
             }
-
-        }catch (AppException e){
-            if(ResponseCode.INDEX_DUP.getCode().equals(e.getCode())){
-                log.warn("监听用户行为返利消息,消费重复 topic:{} message:{}",topic,message,e);
+        } catch (AppException e) {
+            if (ResponseCode.INDEX_DUP.getCode().equals(e.getCode())) {
+                log.warn("监听用户行为返利消息，消费重复 topic: {} message: {}", topic, message, e);
                 return;
             }
             throw e;
-        }catch (Exception e){
+        } catch (Exception e) {
             log.error("监听用户行为返利消息，消费失败 topic: {} message: {}", topic, message, e);
             throw e;
         }
     }
+
 }

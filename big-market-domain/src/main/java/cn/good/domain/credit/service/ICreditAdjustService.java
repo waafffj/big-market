@@ -1,5 +1,6 @@
 package cn.good.domain.credit.service;
 
+import cn.good.domain.credit.model.entity.CreditAccountEntity;
 import cn.good.domain.credit.model.entity.TradeEntity;
 
 /**
@@ -16,4 +17,11 @@ public interface ICreditAdjustService {
      * @return
      */
     String createOrder(TradeEntity tradeEntity);
+
+    /**
+     * 查询用户账户
+     * @param userId
+     * @return
+     */
+    CreditAccountEntity queryUserCreditAccount(String userId);
 }

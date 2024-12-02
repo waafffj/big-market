@@ -36,6 +36,7 @@ import java.util.List;
 @Slf4j
 @Component
 public class BehaviorRebateRepository implements IBehaviorRebateRepository {
+
     @Resource
     private IDailyBehaviorRebateDao dailyBehaviorRebateDao;
     @Resource
@@ -148,6 +149,5 @@ public class BehaviorRebateRepository implements IBehaviorRebateRepository {
         }
         return behaviorRebateOrderEntities;
     }
-
 
 }

@@ -3,6 +3,7 @@ package cn.good.test.trigger;
 import cn.good.trigger.api.IRaffleActivityService;
 import cn.good.trigger.api.dto.ActivityDrawRequestDTO;
 import cn.good.trigger.api.dto.ActivityDrawResponseDTO;
+import cn.good.trigger.api.dto.SkuProductResponseDTO;
 import cn.good.types.model.Response;
 import com.alibaba.fastjson.JSON;
 import lombok.extern.slf4j.Slf4j;
@@ -12,6 +13,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * TODO
@@ -58,6 +60,14 @@ public class RaffleActivityControllerTest {
     public void test_calendarSignRebate(){
         Response<Boolean> response = raffleActivityService.calendarSignRebate("xiaofuge");
         log.info("测试结果:{}",JSON.toJSONString(response));
+    }
+
+    @Test
+    public void test_querySkuProductListByActivityId() {
+        Long request = 100301L;
+        Response<List<SkuProductResponseDTO>> response = raffleActivityService.querySkuProductListByActivityId(request);
+        log.info("请求参数：{}", JSON.toJSONString(request));
+        log.info("测试结果：{}", JSON.toJSONString(response));
     }
 
 }

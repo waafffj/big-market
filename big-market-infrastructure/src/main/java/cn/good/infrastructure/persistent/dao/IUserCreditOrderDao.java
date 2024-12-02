@@ -7,7 +7,7 @@ import org.apache.ibatis.annotations.Mapper;
 /**
  * TODO
  *
- * @Description
+ * @Description 用户积分流水单
  * @Author wkm
  * @Date 2024/11/30
  **/

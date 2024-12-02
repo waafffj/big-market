@@ -1,10 +1,10 @@
 package cn.good.trigger.api;
 
-import cn.good.trigger.api.dto.ActivityDrawRequestDTO;
-import cn.good.trigger.api.dto.ActivityDrawResponseDTO;
-import cn.good.trigger.api.dto.UserActivityAccountRequestDTO;
-import cn.good.trigger.api.dto.UserActivityAccountResponseDTO;
+import cn.good.trigger.api.dto.*;
 import cn.good.types.model.Response;
+
+import java.math.BigDecimal;
+import java.util.List;
 
 /**
  * TODO
@@ -53,4 +53,24 @@ public interface IRaffleActivityService {
      */
     Response<UserActivityAccountResponseDTO> queryUserActivityAccount(UserActivityAccountRequestDTO request);
 
+    /**
+     * 查询sku商品集合
+     * @param activityId
+     * @return 商品集合
+     */
+    Response<List<SkuProductResponseDTO>> querySkuProductListByActivityId(Long activityId);
+
+    /**
+     * 查询用户积分值
+     * @param userId
+     * @return 可用积分
+     */
+    Response<BigDecimal> queryUserCreditAccount(String userId);
+
+    /**
+     * 积分支付兑换商品
+     * @param request
+     * @return
+     */
+    Response<Boolean> creditPayExchangeSku(SkuProductShopCartRequestDTO request);
 }

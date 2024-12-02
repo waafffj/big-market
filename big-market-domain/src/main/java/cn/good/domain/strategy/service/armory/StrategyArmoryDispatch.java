@@ -56,7 +56,6 @@ public class StrategyArmoryDispatch implements IStrategyArmory,IStrategyDispatch
         }
 
         Map<String, List<Integer>> ruleWeightValueMap = strategyRuleEntity.getRuleWeightValues();
-        log.info(String.format("ruleWeightValueMap:{}%s", ruleWeightValueMap.toString()));
         for (String key : ruleWeightValueMap.keySet()) {
             List<Integer> ruleWeightValues = ruleWeightValueMap.get(key);
             ArrayList<StrategyAwardEntity> strategyAwardEntitiesClone = new ArrayList<>(strategyAwardEntities);
@@ -162,6 +161,4 @@ public class StrategyArmoryDispatch implements IStrategyArmory,IStrategyDispatch
         String cacheKey = Constants.RedisKey.STRATEGY_AWARD_COUNT_KEY + strategyId + Constants.UNDERLINE + awardId;
         return repository.subtractionAwardStock(cacheKey, endDateTime);
     }
-
-
 }

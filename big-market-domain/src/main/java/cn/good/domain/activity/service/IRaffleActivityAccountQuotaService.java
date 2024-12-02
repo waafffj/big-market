@@ -3,6 +3,7 @@ package cn.good.domain.activity.service;
 import cn.good.domain.activity.model.entity.ActivityAccountEntity;
 import cn.good.domain.activity.model.entity.DeliveryOrderEntity;
 import cn.good.domain.activity.model.entity.SkuRechargeEntity;
+import cn.good.domain.activity.model.entity.UnpaidActivityOrderEntity;
 
 /**
  * TODO
@@ -17,10 +18,10 @@ public interface IRaffleActivityAccountQuotaService {
      * 以sku创建抽奖活动订单，获得参与抽奖资格（可消耗的次数）
      *
      * @param skuRechargeEntity 活动sku实体，通过sku领取活动。
-     * @return 活动参与记录实体
+     * @return 未支付订单
      */
 
-    String createOrder(SkuRechargeEntity skuRechargeEntity);
+    UnpaidActivityOrderEntity createOrder(SkuRechargeEntity skuRechargeEntity);
     /**
      * 订单出货 - 积分充值
      * @param deliveryOrderEntity 出货单实体对象

@@ -1,7 +1,10 @@
 package cn.good.domain.activity.model.entity;
 
 import cn.good.domain.activity.model.valobj.OrderTradeTypeVO;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * TODO
@@ -11,6 +14,9 @@ import lombok.Data;
  * @Date 2024/10/28
  **/
 @Data
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class SkuRechargeEntity {
     private String userId;
     /** 商品SKU - activity + activity count */
