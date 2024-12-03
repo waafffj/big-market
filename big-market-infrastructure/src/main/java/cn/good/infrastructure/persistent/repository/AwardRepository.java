@@ -163,7 +163,6 @@ public class AwardRepository implements IAwardRepository {
                     } else {
                         userCreditAccountDao.updateAddAmount(userCreditAccountReq);
                     }
-
                     // 更新奖品记录
                     int updateAwardCount = userAwardRecordDao.updateAwardRecordCompletedState(userAwardRecordReq);
                     if (0 == updateAwardCount) {
@@ -179,7 +178,9 @@ public class AwardRepository implements IAwardRepository {
             });
         } finally {
             dbRouter.clear();
-            lock.unlock();
+            if(lock.isLocked()){
+                lock.unlock();
+            }
         }
     }
 
@@ -187,6 +188,5 @@ public class AwardRepository implements IAwardRepository {
     public String queryAwardKey(Integer awardId) {
         return awardDao.queryAwardKeyByAwardId(awardId);
     }
-
 
 }

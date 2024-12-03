@@ -380,7 +380,7 @@ public class RaffleActivityController implements IRaffleActivityService {
                     .userId(unpaidActivityOrder.getUserId())
                     .tradeName(TradeNameVO.CONVERT_SKU)
                     .tradeType(TradeTypeVO.REVERSE)
-                    .amount(unpaidActivityOrder.getPayAmount().negate())
+                    .amount(unpaidActivityOrder.getPayAmount().negate())/* 返回相反数*/
                     .outBusinessNo(unpaidActivityOrder.getOutBusinessNo())
                     .build());
             log.info("积分兑换商品，支付订单完成  userId:{} sku:{} orderId:{}", request.getUserId(), request.getSku(), orderId);
