@@ -2,6 +2,7 @@ package cn.good.domain.activity.service;
 
 import cn.good.domain.activity.model.entity.PartakeRaffleActivityEntity;
 import cn.good.domain.activity.model.entity.UserRaffleOrderEntity;
+import cn.good.domain.activity.model.entity.UserTenRaffleOrderEntity;
 
 /**
  * TODO
@@ -26,4 +27,6 @@ public interface IRaffleActivityPartakeService {
      * @return 用户抽奖订单实体
      */
     UserRaffleOrderEntity createOrder(PartakeRaffleActivityEntity partakeRaffleActivityEntity);
+
+    UserTenRaffleOrderEntity createTenOrders(String userId, Long activityId);
 }

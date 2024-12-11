@@ -17,6 +17,7 @@ import org.redisson.api.RDelayedQueue;
 import org.springframework.stereotype.Repository;
 
 import javax.annotation.Resource;
+import java.time.LocalDate;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 
@@ -346,12 +347,13 @@ public class StrategyRepository implements IStrategyRepository{
     @Override
     public Integer queryActivityAccountTotalUseCount(String userId, Long strategyId) {
         Long activityId = raffleActivityDao.queryActivityIdByStrategyId(strategyId);
-        RaffleActivityAccount raffleActivityAccount = raffleActivityAccountDao.queryActivityAccountByUserId(RaffleActivityAccount.builder()
-                .userId(userId)
-                .activityId(activityId)
-                .build());
-        // 返回计算使用量
-        return raffleActivityAccount.getTotalCount() - raffleActivityAccount.getTotalCountSurplus();
+        RaffleActivityAccountDay raffleActivityAccountDayReq = new RaffleActivityAccountDay();
+        raffleActivityAccountDayReq.setUserId(userId);
+        raffleActivityAccountDayReq.setActivityId(activityId);
+        raffleActivityAccountDayReq.setDay(raffleActivityAccountDayReq.currentDay());
+        RaffleActivityAccountDay raffleActivityAccountDay = raffleActivityAccountDayDao.queryActivityAccountDayByUserId(raffleActivityAccountDayReq);
+        if(null == raffleActivityAccountDay) return 0;
+        return raffleActivityAccountDay.getDayCount() - raffleActivityAccountDay.getDayCountSurplus();
     }
 
     @Override

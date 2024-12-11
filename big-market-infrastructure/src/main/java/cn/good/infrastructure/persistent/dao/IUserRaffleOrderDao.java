@@ -5,6 +5,8 @@ import cn.bugstack.middleware.db.router.annotation.DBRouterStrategy;
 import cn.good.infrastructure.persistent.po.UserRaffleOrder;
 import org.apache.ibatis.annotations.Mapper;
 
+import java.util.List;
+
 /**
  * TODO
  *
@@ -19,4 +21,6 @@ public interface IUserRaffleOrderDao {
     @DBRouter
     UserRaffleOrder queryNoUsedRaffleOrder(UserRaffleOrder userRaffleOrderReq);
     int updateUserRaffleOrderStateUsed(UserRaffleOrder userRaffleOrderReq);
+
+    void batchInsert(UserRaffleOrder build, List<String> orderIds);
 }

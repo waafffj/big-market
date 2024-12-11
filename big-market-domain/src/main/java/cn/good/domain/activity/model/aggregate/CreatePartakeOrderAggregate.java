@@ -1,9 +1,6 @@
 package cn.good.domain.activity.model.aggregate;
 
-import cn.good.domain.activity.model.entity.ActivityAccountDayEntity;
-import cn.good.domain.activity.model.entity.ActivityAccountEntity;
-import cn.good.domain.activity.model.entity.ActivityAccountMonthEntity;
-import cn.good.domain.activity.model.entity.UserRaffleOrderEntity;
+import cn.good.domain.activity.model.entity.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -29,4 +26,5 @@ public class CreatePartakeOrderAggregate {
     private boolean isExistAccountDay = true;
     private ActivityAccountDayEntity activityAccountDayEntity;
     private UserRaffleOrderEntity userRaffleOrderEntity;
+    private UserTenRaffleOrderEntity userTenRaffleOrderEntity;
 }

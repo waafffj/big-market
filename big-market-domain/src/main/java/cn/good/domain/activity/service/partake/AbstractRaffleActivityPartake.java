@@ -4,14 +4,19 @@ import cn.good.domain.activity.model.aggregate.CreatePartakeOrderAggregate;
 import cn.good.domain.activity.model.entity.ActivityEntity;
 import cn.good.domain.activity.model.entity.PartakeRaffleActivityEntity;
 import cn.good.domain.activity.model.entity.UserRaffleOrderEntity;
+import cn.good.domain.activity.model.entity.UserTenRaffleOrderEntity;
 import cn.good.domain.activity.model.valobj.ActivityStateVO;
+import cn.good.domain.activity.model.valobj.UserRaffleOrderStateVO;
 import cn.good.domain.activity.repository.IActivityRepository;
 import cn.good.domain.activity.service.IRaffleActivityPartakeService;
 import cn.good.types.enums.ResponseCode;
 import cn.good.types.exception.AppException;
 import com.alibaba.fastjson.JSON;
 import lombok.extern.slf4j.Slf4j;
+
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 /**
  * TODO
@@ -56,13 +61,6 @@ public abstract class AbstractRaffleActivityPartake implements IRaffleActivityPa
             throw new AppException(ResponseCode.ACTIVITY_DATE_ERROR.getCode(), ResponseCode.ACTIVITY_DATE_ERROR.getInfo());
         }
 
-        // 2. 查询未被使用的活动参与订单记录
-        UserRaffleOrderEntity userRaffleOrderEntity = activityRepository.queryNoUsedRaffleOrder(partakeRaffleActivityEntity);
-        if (null != userRaffleOrderEntity) {
-            log.info("创建参与活动订单存在 userId:{} activityId:{} userRaffleOrderEntity:{}", userId, activityId, JSON.toJSONString(userRaffleOrderEntity));
-            return userRaffleOrderEntity;
-        }
-
         // 3. 额度账户过滤&返回账户构建对象
         CreatePartakeOrderAggregate createPartakeOrderAggregate = this.doFilterAccount(userId, activityId, currentDate);
 
@@ -79,6 +77,29 @@ public abstract class AbstractRaffleActivityPartake implements IRaffleActivityPa
         // 7. 返回订单信息
         return userRaffleOrder;
     }
+    @Override
+    public UserTenRaffleOrderEntity createTenOrders(String userId, Long activityId) {
+        UserTenRaffleOrderEntity userTenRaffleOrderEntity = new UserTenRaffleOrderEntity();
+        List<String> orders = new ArrayList<>();
+        for(int i = 0;i < 10;i ++ ){
+            UserRaffleOrderEntity userRaffleOrder = createOrder(PartakeRaffleActivityEntity.builder()
+                    .userId(userId)
+                    .activityId(activityId)
+                    .build());
+            orders.add(userRaffleOrder.getOrderId());
+        }
+        ActivityEntity activityEntity = activityRepository.queryRaffleActivityByActivityId(activityId);
+        userTenRaffleOrderEntity.setUserId(userId);
+        userTenRaffleOrderEntity.setActivityId(activityId);
+        userTenRaffleOrderEntity.setActivityName(activityEntity.getActivityName());
+        userTenRaffleOrderEntity.setStrategyId(activityEntity.getStrategyId());
+        userTenRaffleOrderEntity.setOrderIds(orders);
+        userTenRaffleOrderEntity.setOrderTime(new Date());
+        userTenRaffleOrderEntity.setOrderState(UserRaffleOrderStateVO.create);
+        userTenRaffleOrderEntity.setEndDateTime(activityEntity.getEndDateTime());
+        return userTenRaffleOrderEntity;
+    }
+
 
     protected abstract CreatePartakeOrderAggregate doFilterAccount(String userId, Long activityId, Date currentDate);
 

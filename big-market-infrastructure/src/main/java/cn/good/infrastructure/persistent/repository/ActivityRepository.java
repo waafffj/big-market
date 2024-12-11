@@ -402,6 +402,7 @@ public class ActivityRepository implements IActivityRepository{
             ActivityAccountMonthEntity activityAccountMonthEntity = createPartakeOrderAggregate.getActivityAccountMonthEntity();
             ActivityAccountDayEntity activityAccountDayEntity = createPartakeOrderAggregate.getActivityAccountDayEntity();
             UserRaffleOrderEntity userRaffleOrderEntity = createPartakeOrderAggregate.getUserRaffleOrderEntity();
+            UserTenRaffleOrderEntity userTenRaffleOrderEntity = createPartakeOrderAggregate.getUserTenRaffleOrderEntity();
 
             // 统一切换路由，以下事务内的所有操作，都走一个路由
             dbRouter.doRouter(userId);
@@ -491,16 +492,27 @@ public class ActivityRepository implements IActivityRepository{
                     }
 
                     // 4. 写入参与活动订单
-                    userRaffleOrderDao.insert(UserRaffleOrder.builder()
-                            .userId(userRaffleOrderEntity.getUserId())
-                            .activityId(userRaffleOrderEntity.getActivityId())
-                            .activityName(userRaffleOrderEntity.getActivityName())
-                            .strategyId(userRaffleOrderEntity.getStrategyId())
-                            .orderId(userRaffleOrderEntity.getOrderId())
-                            .orderTime(userRaffleOrderEntity.getOrderTime())
-                            .orderState(userRaffleOrderEntity.getOrderState().getCode())
-                            .build());
-
+                    if(userRaffleOrderEntity != null){
+                        userRaffleOrderDao.insert(UserRaffleOrder.builder()
+                                .userId(userRaffleOrderEntity.getUserId())
+                                .activityId(userRaffleOrderEntity.getActivityId())
+                                .activityName(userRaffleOrderEntity.getActivityName())
+                                .strategyId(userRaffleOrderEntity.getStrategyId())
+                                .orderId(userRaffleOrderEntity.getOrderId())
+                                .orderTime(userRaffleOrderEntity.getOrderTime())
+                                .orderState(userRaffleOrderEntity.getOrderState().getCode())
+                                .build());
+                    }
+                    if(userTenRaffleOrderEntity != null){
+                        userRaffleOrderDao.batchInsert(UserRaffleOrder.builder()
+                                .userId(userTenRaffleOrderEntity.getUserId())
+                                .activityId(userTenRaffleOrderEntity.getActivityId())
+                                .activityName(userTenRaffleOrderEntity.getActivityName())
+                                .strategyId(userTenRaffleOrderEntity.getStrategyId())
+                                .orderTime(userTenRaffleOrderEntity.getOrderTime())
+                                .orderState(userTenRaffleOrderEntity.getOrderState().getCode())
+                                .build(),userTenRaffleOrderEntity.getOrderIds());
+                    }
                     return 1;
                 } catch (DuplicateKeyException e) {
                     status.setRollbackOnly();

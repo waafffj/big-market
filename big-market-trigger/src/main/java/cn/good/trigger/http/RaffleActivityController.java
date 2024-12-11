@@ -24,6 +24,7 @@ import cn.good.domain.strategy.service.IRaffleStrategy;
 import cn.good.domain.strategy.service.armory.IStrategyArmory;
 import cn.good.trigger.api.IRaffleActivityService;
 import cn.good.trigger.api.dto.*;
+import cn.good.types.common.Constants;
 import cn.good.types.enums.ResponseCode;
 import cn.good.types.exception.AppException;
 import cn.good.types.model.Response;
@@ -39,6 +40,8 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ThreadPoolExecutor;
 
 /**
  * TODO
@@ -73,6 +76,8 @@ public class RaffleActivityController implements IRaffleActivityService {
     private IBehaviorRebateService behaviorRebateService;
     @Resource
     private ICreditAdjustService creditAdjustService;
+    @Resource
+    private ThreadPoolExecutor executor;
 
     /**
      * 活动装配 - 数据预热 | 把活动配置的对应的 sku 一起装配
@@ -180,6 +185,65 @@ public class RaffleActivityController implements IRaffleActivityService {
             return Response.<ActivityDrawResponseDTO>builder()
                     .code(ResponseCode.UN_ERROR.getCode())
                     .info(ResponseCode.UN_ERROR.getInfo())
+                    .build();
+        }
+    }
+    @RequestMapping(value = "drawList",method = RequestMethod.POST)
+    @Override
+    public Response<List<ActivityDrawResponseDTO>> drawList(@RequestBody ActivityDrawRequestDTO request) throws InterruptedException {
+        try{
+            log.info("十连抽抽奖开始 activityId :{} userId :{}",request.getActivityId(),request.getUserId());
+            if(StringUtils.isBlank(request.getUserId()) || null == request.getActivityId()){
+                throw new AppException(ResponseCode.ILLEGAL_PARAMETER.getCode(), ResponseCode.ILLEGAL_PARAMETER.getInfo());
+            }
+            UserTenRaffleOrderEntity tenRaffleOrderEntity = raffleActivityPartakeService.createTenOrders(request.getUserId(),request.getActivityId());
+            log.info("活动抽奖，创建订单 userId:{} activityId:{} orderIds:{}",
+                    request.getUserId(),
+                    request.getActivityId(),
+                    String.join(", ", tenRaffleOrderEntity.getOrderIds()));
+            List<RaffleAwardEntity> raffleAwardEntities = new ArrayList<>();
+            List<Callable<RaffleAwardEntity>> tasks = new ArrayList<>();
+            List<ActivityDrawResponseDTO> activityDrawResponseDTOS = new ArrayList<>();
+            for(int i = 0;i < 10;i ++ ){
+                final int index = i;
+                tasks.add(()->{
+                    RaffleAwardEntity raffleAwardEntity = raffleStrategy.performRaffle(RaffleFactorEntity.builder()
+                            .userId(tenRaffleOrderEntity.getUserId())
+                            .strategyId(tenRaffleOrderEntity.getStrategyId())
+                            .endDateTime(tenRaffleOrderEntity.getEndDateTime())
+                            .build());
+                    raffleAwardEntities.add(raffleAwardEntity);
+                    UserAwardRecordEntity userAwardRecord = UserAwardRecordEntity.builder()
+                            .userId(tenRaffleOrderEntity.getUserId())
+                            .activityId(tenRaffleOrderEntity.getActivityId())
+                            .strategyId(tenRaffleOrderEntity.getStrategyId())
+                            .orderId(tenRaffleOrderEntity.getOrderIds().get(index))
+                            .awardId(raffleAwardEntity.getAwardId())
+                            .awardTitle(raffleAwardEntity.getAwardTitle())
+                            .awardTime(new Date())
+                            .awardState(AwardStateVO.create)
+                            .awardConfig(raffleAwardEntity.getAwardConfig())
+                            .build();
+                    awardService.saveUserAwardRecord(userAwardRecord);
+                    activityDrawResponseDTOS.add(ActivityDrawResponseDTO.builder()
+                            .awardId(userAwardRecord.getAwardId())
+                            .awardTitle(userAwardRecord.getAwardTitle())
+                            .awardIndex(raffleAwardEntity.getSort())
+                            .build());
+                    return null;
+                });
+            }
+            executor.invokeAll(tasks);
+            return Response.<List<ActivityDrawResponseDTO>>builder()
+                    .code(ResponseCode.SUCCESS.getCode())
+                    .info(ResponseCode.SUCCESS.getInfo())
+                    .data(activityDrawResponseDTOS)
+                    .build();
+        }catch (AppException e){
+            log.error("活动抽奖失败 userId:{} activityId:{}", request.getUserId(), request.getActivityId(), e);
+            return Response.<List<ActivityDrawResponseDTO>>builder()
+                    .code(e.getCode())
+                    .info(e.getInfo())
                     .build();
         }
     }

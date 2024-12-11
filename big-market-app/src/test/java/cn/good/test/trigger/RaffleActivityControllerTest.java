@@ -1,5 +1,7 @@
 package cn.good.test.trigger;
 
+import cn.good.domain.activity.service.armory.IActivityArmory;
+import cn.good.domain.strategy.service.armory.IStrategyArmory;
 import cn.good.trigger.api.IRaffleActivityService;
 import cn.good.trigger.api.dto.ActivityDrawRequestDTO;
 import cn.good.trigger.api.dto.ActivityDrawResponseDTO;
@@ -28,22 +30,28 @@ import java.util.List;
 public class RaffleActivityControllerTest {
     @Resource
     private IRaffleActivityService raffleActivityService;
+    @Resource
+    private IActivityArmory activityArmory;
+    @Resource
+    private IStrategyArmory strategyArmory;
 
     @Test
     public void test_armory() {
-        Response<Boolean> response = raffleActivityService.armory(100301L);
-        log.info("测试结果：{}", JSON.toJSONString(response));
+        activityArmory.assembleActivitySkuByActivityId(100301L);
+        // 2. 策略装配
+        strategyArmory.assembleLotteryStrategyByActivityId(100301L);
     }
 
     @Test
-    public void test_draw() {
+    public void test_draw_List() throws InterruptedException {
         ActivityDrawRequestDTO request = new ActivityDrawRequestDTO();
         request.setActivityId(100301L);
-        request.setUserId("xiaofuge");
-        Response<ActivityDrawResponseDTO> response = raffleActivityService.draw(request);
+        request.setUserId("wkm");
+        Response<List<ActivityDrawResponseDTO>> response = raffleActivityService.drawList(request);
+
 
         log.info("请求参数：{}", JSON.toJSONString(request));
-        log.info("测试结果：{}", JSON.toJSONString(response));
+        log.info("测试结果：{}",response);
     }
     @Test
     public void test_blacklist_draw(){
