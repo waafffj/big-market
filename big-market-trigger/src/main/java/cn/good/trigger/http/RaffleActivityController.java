@@ -24,7 +24,6 @@ import cn.good.domain.strategy.service.IRaffleStrategy;
 import cn.good.domain.strategy.service.armory.IStrategyArmory;
 import cn.good.trigger.api.IRaffleActivityService;
 import cn.good.trigger.api.dto.*;
-import cn.good.types.common.Constants;
 import cn.good.types.enums.ResponseCode;
 import cn.good.types.exception.AppException;
 import cn.good.types.model.Response;

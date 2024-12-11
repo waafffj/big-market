@@ -2,7 +2,6 @@ package cn.good.trigger.api;
 
 import cn.good.trigger.api.dto.*;
 import cn.good.types.model.Response;
-import org.springframework.web.bind.annotation.RequestBody;
 
 import java.math.BigDecimal;
 import java.util.List;
