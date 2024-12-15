@@ -2,6 +2,7 @@ package cn.good.trigger.api.dto;
 
 import lombok.Data;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 
 /**
@@ -12,7 +13,7 @@ import java.math.BigDecimal;
  * @Date 2024/12/2
  **/
 @Data
-public class SkuProductResponseDTO {
+public class SkuProductResponseDTO implements Serializable {
     private Long sku;
     private Long activityId;
     /**

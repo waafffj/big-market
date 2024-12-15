@@ -2,6 +2,8 @@ package cn.good.trigger.api.dto;
 
 import lombok.Data;
 
+import java.io.Serializable;
+
 /**
  * TODO
  *
@@ -10,7 +12,7 @@ import lombok.Data;
  * @Date 2024/12/2
  **/
 @Data
-public class SkuProductShopCartRequestDTO {
+public class SkuProductShopCartRequestDTO implements Serializable {
     private String userId;
     private Long sku;
 }

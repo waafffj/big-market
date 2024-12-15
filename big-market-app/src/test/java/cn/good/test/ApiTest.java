@@ -1,21 +1,20 @@
 package cn.good.test;
 
-import cn.good.infrastructure.persistent.redis.IRedisService;
 import cn.good.trigger.api.dto.RaffleAwardListRequestDTO;
-import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson2.JSON;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.redisson.api.RMap;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringRunner;
 
-import javax.annotation.Resource;
-
+/**
+ * @author Fuzhengwei bugstack.cn @小傅哥
+ * @description 功能测试
+ * @create 2023-12-23 11:39
+ */
 @Slf4j
-@RunWith(SpringRunner.class)
-@SpringBootTest
+//@RunWith(SpringRunner.class)
+//@SpringBootTest
 public class ApiTest {
+
     @Test
     public void test() {
         RaffleAwardListRequestDTO requestDTO = new RaffleAwardListRequestDTO();
@@ -24,14 +23,21 @@ public class ApiTest {
         log.info(JSON.toJSONString(requestDTO));
     }
 
-    private double convert(double min){
+    public static void main(String[] args) {
+        double convert = convert(0.0018);
+        System.out.println(convert);
+    }
+
+    private static double convert(double min){
         double current = min;
         double max = 1;
-        while (current < 1){
+        while (current % 1 != 0){
             current = current * 10;
             max = max * 10;
         }
         return max;
     }
+
+
 
 }

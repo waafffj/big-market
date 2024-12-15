@@ -2,6 +2,8 @@ package cn.good.trigger.api.dto;
 
 import lombok.Data;
 
+import java.io.Serializable;
+
 /**
  * TODO
  *
@@ -10,7 +12,7 @@ import lombok.Data;
  * @Date 2024/11/16
  **/
 @Data
-public class RaffleStrategyRuleWeightRequestDTO {
+public class RaffleStrategyRuleWeightRequestDTO implements Serializable {
     private String userId;
     private Long activityId;
 }

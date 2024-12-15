@@ -2,6 +2,7 @@ package cn.good.trigger.api.dto;
 
 import lombok.Data;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -12,7 +13,7 @@ import java.util.List;
  * @Date 2024/11/16
  **/
 @Data
-public class RaffleStrategyRuleWeightResponseDTO {
+public class RaffleStrategyRuleWeightResponseDTO implements Serializable {
     // 权重规则配置的抽奖次数
     private Integer ruleWeightCount;
     private Integer userActivityAccountTotalUseCount;
