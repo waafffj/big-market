@@ -11,7 +11,6 @@ import cn.good.domain.activity.repository.IActivityRepository;
 import cn.good.domain.activity.service.IRaffleActivityPartakeService;
 import cn.good.types.enums.ResponseCode;
 import cn.good.types.exception.AppException;
-import com.alibaba.fastjson.JSON;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.ArrayList;
