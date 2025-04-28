@@ -1,0 +1,27 @@
+24-11-27.19:33:49.106 [main            ] INFO  StrategyTest           - Starting StrategyTest using Java 1.8.0_412 on 小茗 with PID 18936 (started by 37608 in D:\SpringBoot\xiaofuge\big-market\big-market-app)
+24-11-27.19:33:49.108 [main            ] INFO  StrategyTest           - The following 1 profile is active: "dev"
+24-11-27.19:33:50.663 [main            ] INFO  RepositoryConfigurationDelegate - Multiple Spring Data modules found, entering strict repository configuration mode
+24-11-27.19:33:50.667 [main            ] INFO  RepositoryConfigurationDelegate - Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+24-11-27.19:33:50.716 [main            ] INFO  RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 32 ms. Found 0 Redis repository interfaces.
+24-11-27.19:33:52.391 [main            ] INFO  Version                - Redisson 3.26.0
+24-11-27.19:33:52.880 [redisson-netty-1-4] INFO  ConnectionsHolder      - 1 connections initialized for 127.0.0.1/127.0.0.1:6379
+24-11-27.19:33:52.910 [redisson-netty-1-13] INFO  ConnectionsHolder      - 5 connections initialized for 127.0.0.1/127.0.0.1:6379
+24-11-27.19:33:56.574 [main            ] INFO  EndpointLinksResolver  - Exposing 1 endpoint(s) beneath base path '/actuator'
+24-11-27.19:33:56.665 [main            ] INFO  CachingConnectionFactory - Attempting to connect to: [117.72.123.31:5672]
+24-11-27.19:33:56.953 [main            ] INFO  CachingConnectionFactory - Created new connection: rabbitConnectionFactory#2154652c:0/SimpleConnection@575d48db [delegate=amqp://admin@117.72.123.31:5672/, localPort= 64550]
+24-11-27.19:33:58.288 [main            ] INFO  StrategyTest           - Started StrategyTest in 9.691 seconds (JVM running for 11.404)
+24-11-27.19:33:58.617 [main            ] INFO  HikariDataSource       - Retail_HikariCP - Starting...
+24-11-27.19:33:58.910 [main            ] INFO  HikariDataSource       - Retail_HikariCP - Start completed.
+24-11-27.19:33:59.270 [org.springframework.amqp.rabbit.RabbitListenerEndpointContainer#0-2] INFO  SimpleMessageListenerContainer - Waiting for workers to finish.
+24-11-27.19:33:59.327 [org.springframework.amqp.rabbit.RabbitListenerEndpointContainer#1-2] INFO  SimpleMessageListenerContainer - Waiting for workers to finish.
+24-11-27.19:33:59.397 [org.springframework.amqp.rabbit.RabbitListenerEndpointContainer#2-2] INFO  SimpleMessageListenerContainer - Waiting for workers to finish.
+24-11-27.19:33:59.558 [org.springframework.amqp.rabbit.RabbitListenerEndpointContainer#0-2] INFO  SimpleMessageListenerContainer - Successfully waited for workers to finish.
+24-11-27.19:33:59.847 [org.springframework.amqp.rabbit.RabbitListenerEndpointContainer#1-2] INFO  SimpleMessageListenerContainer - Successfully waited for workers to finish.
+24-11-27.19:34:00.019 [pool-3-thread-2 ] INFO  HikariDataSource       - Retail_HikariCP - Starting...
+24-11-27.19:34:00.020 [pool-3-thread-1 ] INFO  HikariDataSource       - Retail_HikariCP - Starting...
+24-11-27.19:34:00.040 [pool-3-thread-2 ] INFO  HikariDataSource       - Retail_HikariCP - Start completed.
+24-11-27.19:34:00.040 [pool-3-thread-1 ] INFO  HikariDataSource       - Retail_HikariCP - Start completed.
+24-11-27.19:34:00.342 [org.springframework.amqp.rabbit.RabbitListenerEndpointContainer#2-2] INFO  SimpleMessageListenerContainer - Successfully waited for workers to finish.
+24-11-27.19:34:00.345 [SpringApplicationShutdownHook] INFO  SimpleMessageListenerContainer - Shutdown ignored - container is already stopped
+24-11-27.19:34:00.346 [SpringApplicationShutdownHook] INFO  SimpleMessageListenerContainer - Shutdown ignored - container is already stopped
+24-11-27.19:34:00.346 [SpringApplicationShutdownHook] INFO  SimpleMessageListenerContainer - Shutdown ignored - container is already stopped

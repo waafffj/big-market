@@ -1,0 +1,77 @@
+25-01-18.00:32:53.790 [main            ] WARN  ServiceAnnotationPostProcessor -  [DUBBO] No class annotated by Dubbo @Service was found under package [cn.good.trigger.api], ignore re-scanned classes: 0, dubbo version: 3.0.9, current host: 192.168.1.7
+25-01-18.00:32:56.010 [main            ] WARN  CuratorZookeeperClient - session timeout [18000] is less than connection timeout [30000]
+25-01-18.00:33:09.040 [main-SendThread(117.72.123.31:2181)] WARN  ClientCnxn             - Session 0x0 for sever 117.72.123.31/117.72.123.31:2181, Closing socket connection. Attempting reconnect except it is a SessionExpiredException.
+java.net.ConnectException: Connection refused: no further information
+	at sun.nio.ch.SocketChannelImpl.checkConnect(Native Method)
+	at sun.nio.ch.SocketChannelImpl.finishConnect(SocketChannelImpl.java:716)
+	at org.apache.zookeeper.ClientCnxnSocketNIO.doTransport(ClientCnxnSocketNIO.java:342)
+	at org.apache.zookeeper.ClientCnxn$SendThread.run(ClientCnxn.java:1262)
+25-01-18.00:33:22.803 [main-SendThread(117.72.123.31:2181)] WARN  ClientCnxn             - Session 0x0 for sever 117.72.123.31/117.72.123.31:2181, Closing socket connection. Attempting reconnect except it is a SessionExpiredException.
+java.net.ConnectException: Connection refused: no further information
+	at sun.nio.ch.SocketChannelImpl.checkConnect(Native Method)
+	at sun.nio.ch.SocketChannelImpl.finishConnect(SocketChannelImpl.java:716)
+	at org.apache.zookeeper.ClientCnxnSocketNIO.doTransport(ClientCnxnSocketNIO.java:342)
+	at org.apache.zookeeper.ClientCnxn$SendThread.run(ClientCnxn.java:1262)
+25-01-18.00:33:35.589 [Curator-Framework-0] ERROR CuratorFrameworkImpl   - Background operation retry gave up
+org.apache.zookeeper.KeeperException$ConnectionLossException: KeeperErrorCode = ConnectionLoss
+	at org.apache.zookeeper.KeeperException.create(KeeperException.java:102)
+	at org.apache.curator.framework.imps.CuratorFrameworkImpl.checkBackgroundRetry(CuratorFrameworkImpl.java:851)
+	at org.apache.curator.framework.imps.CuratorFrameworkImpl.performBackgroundOperation(CuratorFrameworkImpl.java:999)
+	at org.apache.curator.framework.imps.CuratorFrameworkImpl.backgroundOperationsLoop(CuratorFrameworkImpl.java:952)
+	at org.apache.curator.framework.imps.CuratorFrameworkImpl.access$300(CuratorFrameworkImpl.java:66)
+	at org.apache.curator.framework.imps.CuratorFrameworkImpl$4.call(CuratorFrameworkImpl.java:342)
+	at java.util.concurrent.FutureTask.run$$$capture(FutureTask.java:266)
+	at java.util.concurrent.FutureTask.run(FutureTask.java)
+	at java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.access$201(ScheduledThreadPoolExecutor.java:180)
+	at java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:293)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1149)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624)
+	at java.lang.Thread.run(Thread.java:750)
+25-01-18.00:33:35.590 [Curator-Framework-0] ERROR CuratorFrameworkImpl   - Background retry gave up
+org.apache.curator.CuratorConnectionLossException: KeeperErrorCode = ConnectionLoss
+	at org.apache.curator.framework.imps.CuratorFrameworkImpl.performBackgroundOperation(CuratorFrameworkImpl.java:981)
+	at org.apache.curator.framework.imps.CuratorFrameworkImpl.backgroundOperationsLoop(CuratorFrameworkImpl.java:952)
+	at org.apache.curator.framework.imps.CuratorFrameworkImpl.access$300(CuratorFrameworkImpl.java:66)
+	at org.apache.curator.framework.imps.CuratorFrameworkImpl$4.call(CuratorFrameworkImpl.java:342)
+	at java.util.concurrent.FutureTask.run$$$capture(FutureTask.java:266)
+	at java.util.concurrent.FutureTask.run(FutureTask.java)
+	at java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.access$201(ScheduledThreadPoolExecutor.java:180)
+	at java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:293)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1149)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624)
+	at java.lang.Thread.run(Thread.java:750)
+25-01-18.00:33:36.599 [main-SendThread(117.72.123.31:2181)] WARN  ClientCnxn             - Session 0x0 for sever 117.72.123.31/117.72.123.31:2181, Closing socket connection. Attempting reconnect except it is a SessionExpiredException.
+java.net.ConnectException: Connection refused: no further information
+	at sun.nio.ch.SocketChannelImpl.checkConnect(Native Method)
+	at sun.nio.ch.SocketChannelImpl.finishConnect(SocketChannelImpl.java:716)
+	at org.apache.zookeeper.ClientCnxnSocketNIO.doTransport(ClientCnxnSocketNIO.java:342)
+	at org.apache.zookeeper.ClientCnxn$SendThread.run(ClientCnxn.java:1262)
+25-01-18.00:33:50.386 [main-SendThread(117.72.123.31:2181)] WARN  ClientCnxn             - Session 0x0 for sever 117.72.123.31/117.72.123.31:2181, Closing socket connection. Attempting reconnect except it is a SessionExpiredException.
+java.net.ConnectException: Connection refused: no further information
+	at sun.nio.ch.SocketChannelImpl.checkConnect(Native Method)
+	at sun.nio.ch.SocketChannelImpl.finishConnect(SocketChannelImpl.java:716)
+	at org.apache.zookeeper.ClientCnxnSocketNIO.doTransport(ClientCnxnSocketNIO.java:342)
+	at org.apache.zookeeper.ClientCnxn$SendThread.run(ClientCnxn.java:1262)
+25-01-18.00:33:53.590 [Curator-ConnectionStateManager-0] WARN  ConnectionStateManager - Session timeout has elapsed while SUSPENDED. Injecting a session expiration. Elapsed ms: 18001. Adjusted session timeout ms: 18000
+25-01-18.00:33:53.596 [main-EventThread] WARN  ConnectionState        - Session expired event received
+25-01-18.00:34:06.246 [main-SendThread(117.72.123.31:2181)] WARN  ClientCnxn             - Session 0x0 for sever 117.72.123.31/117.72.123.31:2181, Closing socket connection. Attempting reconnect except it is a SessionExpiredException.
+java.net.ConnectException: Connection refused: no further information
+	at sun.nio.ch.SocketChannelImpl.checkConnect(Native Method)
+	at sun.nio.ch.SocketChannelImpl.finishConnect(SocketChannelImpl.java:716)
+	at org.apache.zookeeper.ClientCnxnSocketNIO.doTransport(ClientCnxnSocketNIO.java:342)
+	at org.apache.zookeeper.ClientCnxn$SendThread.run(ClientCnxn.java:1262)
+25-01-18.00:34:06.364 [main            ] WARN  GenericWebApplicationContext - Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'DCCValueBeanFactory' defined in file [D:\SpringBoot\xiaofuge\big-market\big-market-app\target\classes\cn\good\config\DCCValueBeanFactory.class]: Bean instantiation via constructor failed; nested exception is org.springframework.beans.BeanInstantiationException: Failed to instantiate [cn.good.config.DCCValueBeanFactory$$EnhancerBySpringCGLIB$$ef00455e]: Constructor threw exception; nested exception is org.apache.zookeeper.KeeperException$ConnectionLossException: KeeperErrorCode = ConnectionLoss for /big-market-dcc/config
+25-01-18.00:34:19.887 [main-SendThread(117.72.123.31:2181)] WARN  ClientCnxn             - An exception was thrown while closing send thread for session 0x0.
+java.net.ConnectException: Connection refused: no further information
+	at sun.nio.ch.SocketChannelImpl.checkConnect(Native Method)
+	at sun.nio.ch.SocketChannelImpl.finishConnect(SocketChannelImpl.java:716)
+	at org.apache.zookeeper.ClientCnxnSocketNIO.doTransport(ClientCnxnSocketNIO.java:342)
+	at org.apache.zookeeper.ClientCnxn$SendThread.run(ClientCnxn.java:1262)
+25-01-18.00:34:36.986 [main            ] WARN  ServiceAnnotationPostProcessor -  [DUBBO] No class annotated by Dubbo @Service was found under package [cn.good.trigger.api], ignore re-scanned classes: 0, dubbo version: 3.0.9, current host: 192.168.1.7
+25-01-18.00:34:38.636 [main            ] WARN  CuratorZookeeperClient - session timeout [18000] is less than connection timeout [30000]
+25-01-18.00:34:51.684 [main-SendThread(117.72.123.31:2181)] WARN  ClientCnxn             - Session 0x0 for sever 117.72.123.31/117.72.123.31:2181, Closing socket connection. Attempting reconnect except it is a SessionExpiredException.
+java.net.ConnectException: Connection refused: no further information
+	at sun.nio.ch.SocketChannelImpl.checkConnect(Native Method)
+	at sun.nio.ch.SocketChannelImpl.finishConnect(SocketChannelImpl.java:716)
+	at org.apache.zookeeper.ClientCnxnSocketNIO.doTransport(ClientCnxnSocketNIO.java:342)
+	at org.apache.zookeeper.ClientCnxn$SendThread.run(ClientCnxn.java:1262)
