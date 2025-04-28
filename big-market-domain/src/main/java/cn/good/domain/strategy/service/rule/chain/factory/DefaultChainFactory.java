@@ -60,7 +60,6 @@ public class DefaultChainFactory {
 
         return logicChain;
 
-
     }
 
     @Data
@@ -73,7 +72,6 @@ public class DefaultChainFactory {
         /**
          * 抽奖类型；黑名单抽奖、权重规则、默认抽奖
          */
-
         private String logicModel;
         /**
          * 抽奖奖品规则

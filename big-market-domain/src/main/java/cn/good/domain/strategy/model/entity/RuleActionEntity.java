@@ -3,11 +3,16 @@ package cn.good.domain.strategy.model.entity;
 import cn.good.domain.strategy.model.valobj.RuleLogicCheckTypeVO;
 import lombok.*;
 
+/**
+ *
+ * 规则动作实体
+ * @param <T>
+ */
+
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-
 public class RuleActionEntity<T extends RuleActionEntity.RaffleEntity> {
     private String code = RuleLogicCheckTypeVO.ALLOW.getCode();
     private String info = RuleLogicCheckTypeVO.ALLOW.getInfo();

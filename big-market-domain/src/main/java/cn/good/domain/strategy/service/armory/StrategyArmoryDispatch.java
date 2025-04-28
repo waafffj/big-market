@@ -43,7 +43,7 @@ public class StrategyArmoryDispatch implements IStrategyArmory,IStrategyDispatch
 
         // 3.1 默认装配配置【全量抽奖概率】
         assembleLotteryStrategy(String.valueOf(strategyId), strategyAwardEntities);
-
+    
         // 3.2 权重策略配置 - 适用于 rule_weight 权重规则配置【4000:102,103,104,105 5000:102,103,104,105,106,107 6000:102,103,104,105,106,107,108,109】
         StrategyEntity strategyEntity = repository.queryStrategyEntityByStrategyId(strategyId);
         String ruleWeight = strategyEntity.getRuleWeight();
@@ -54,7 +54,7 @@ public class StrategyArmoryDispatch implements IStrategyArmory,IStrategyDispatch
         if (null == strategyRuleEntity) {
             throw new AppException(ResponseCode.STRATEGY_RULE_WEIGHT_IS_NULL.getCode(), ResponseCode.STRATEGY_RULE_WEIGHT_IS_NULL.getInfo());
         }
-
+        // "4000:102,103,104,105  [102,103,104,105]"
         Map<String, List<Integer>> ruleWeightValueMap = strategyRuleEntity.getRuleWeightValues();
         for (String key : ruleWeightValueMap.keySet()) {
             List<Integer> ruleWeightValues = ruleWeightValueMap.get(key);
@@ -64,6 +64,7 @@ public class StrategyArmoryDispatch implements IStrategyArmory,IStrategyDispatch
         }
         return true;
     }
+
 
     /**
      * 计算公式；
@@ -97,12 +98,12 @@ public class StrategyArmoryDispatch implements IStrategyArmory,IStrategyDispatch
         Collections.shuffle(strategyAwardSearchRateTables);
 
         // 5. 生成出Map集合，key值，对应的就是后续的概率值。通过概率来获得对应的奖品ID
-        Map<Integer, Integer> shuffleStrategyAwardSearchRateTable = new LinkedHashMap<>();
+        Map<Integer,Integer> shuffleStrategyAwardSearchRateTable = new LinkedHashMap<>();
         for (int i = 0; i < strategyAwardSearchRateTables.size(); i++) {
             shuffleStrategyAwardSearchRateTable.put(i, strategyAwardSearchRateTables.get(i));
         }
 
-        // 6. 存放到 Redis
+        // 6. 存放到 Redis    .size()为实际大小
         repository.storeStrategyAwardSearchRateTable(key, shuffleStrategyAwardSearchRateTable.size(), shuffleStrategyAwardSearchRateTable);
     }
 
@@ -135,7 +136,7 @@ public class StrategyArmoryDispatch implements IStrategyArmory,IStrategyDispatch
 
     @Override
     public Integer getRandomAwardId(Long strategyId) {
-        // 分布式部署下，不一定为当前应用做的策略装配。也就是值不一定会保存到本应用，而是分布式应用，所以需要从 Redis 中获取。
+        // 分布式部署下，不一定为当前应用做的策略装配。也就值不一定会保存到本应用，而是是分布式应用，所以需要从 Redis 中获取。
         int rateRange = repository.getRateRange(strategyId);
         // 通过生成的随机值，获取概率值奖品查找表的结果
         return repository.getStrategyAwardAssemble(String.valueOf(strategyId), secureRandom.nextInt(rateRange));
@@ -152,12 +153,12 @@ public class StrategyArmoryDispatch implements IStrategyArmory,IStrategyDispatch
         // 分布式部署下，不一定为当前应用做的策略装配。也就是值不一定会保存到本应用，而是分布式应用，所以需要从 Redis 中获取。
         int rateRange = repository.getRateRange(key);
         // 通过生成的随机值，获取概率值奖品查找表的结果
-        return repository.getStrategyAwardAssemble(key, secureRandom.nextInt(rateRange));
+        return repository.getStrategyAwardAssemble(key,secureRandom.nextInt(rateRange));
     }
 
     @Override
     public Boolean subtractionAwardStock(Long strategyId, Integer awardId, Date endDateTime) {
         String cacheKey = Constants.RedisKey.STRATEGY_AWARD_COUNT_KEY + strategyId + Constants.UNDERLINE + awardId;
-        return repository.subtractionAwardStock(cacheKey, endDateTime);
+        return repository.subtractionAwardStock(cacheKey,endDateTime);
     }
 }
