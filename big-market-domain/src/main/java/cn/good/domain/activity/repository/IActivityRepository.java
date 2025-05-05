@@ -50,4 +50,6 @@ public interface IActivityRepository {
     UnpaidActivityOrderEntity queryUnpaidActivityOrder(SkuRechargeEntity skuRechargeEntity);
 
     BigDecimal queryUserCreditAccountAmount(String userId);
+
+    List<UserAwardRecordEntity> queryUserAwardEntity(String userId);
 }

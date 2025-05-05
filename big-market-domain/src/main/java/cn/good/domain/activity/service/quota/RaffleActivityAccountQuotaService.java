@@ -12,6 +12,7 @@ import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -95,5 +96,9 @@ public class RaffleActivityAccountQuotaService extends AbstractRaffleActivityAcc
     @Override
     public ActivityAccountEntity queryActivityAccountEntity(Long activityId, String userId) {
         return activityRepository.queryActivityAccountEntity(activityId,userId);
+    }
+    @Override
+    public List<UserAwardRecordEntity> queryUserRecordEntity(String userId) {
+        return activityRepository.queryUserAwardEntity(userId);
     }
 }

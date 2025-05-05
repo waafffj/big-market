@@ -1,9 +1,8 @@
 package cn.good.domain.activity.service;
 
-import cn.good.domain.activity.model.entity.ActivityAccountEntity;
-import cn.good.domain.activity.model.entity.DeliveryOrderEntity;
-import cn.good.domain.activity.model.entity.SkuRechargeEntity;
-import cn.good.domain.activity.model.entity.UnpaidActivityOrderEntity;
+import cn.good.domain.activity.model.entity.*;
+
+import java.util.List;
 
 /**
  * TODO
@@ -52,4 +51,5 @@ public interface IRaffleActivityAccountQuotaService {
      * @return
      */
     ActivityAccountEntity queryActivityAccountEntity(Long activityId,String userId);
+    List<UserAwardRecordEntity> queryUserRecordEntity(String userId);
 }

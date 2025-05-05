@@ -189,7 +189,7 @@ public class RaffleActivityController implements IRaffleActivityService {
     }
     @RequestMapping(value = "drawList",method = RequestMethod.POST)
     @Override
-    public Response<List<ActivityDrawResponseDTO>> drawList(@RequestBody ActivityDrawRequestDTO request) throws InterruptedException {
+    public Response<ActivityDrawTenResponseDTO> drawList(@RequestBody ActivityDrawTenRequestDTO request) throws InterruptedException {
         try{
             log.info("十连抽抽奖开始 activityId :{} userId :{}",request.getActivityId(),request.getUserId());
             if(StringUtils.isBlank(request.getUserId()) || null == request.getActivityId()){
@@ -202,7 +202,7 @@ public class RaffleActivityController implements IRaffleActivityService {
                     String.join(", ", tenRaffleOrderEntity.getOrderIds()));
             List<RaffleAwardEntity> raffleAwardEntities = new ArrayList<>();
             List<Callable<RaffleAwardEntity>> tasks = new ArrayList<>();
-            List<ActivityDrawResponseDTO> activityDrawResponseDTOS = new ArrayList<>();
+            List<String>  awardTitleList = new ArrayList<>();
             for(int i = 0;i < 10;i ++ ){
                 final int index = i;
                 tasks.add(()->{
@@ -224,25 +224,55 @@ public class RaffleActivityController implements IRaffleActivityService {
                             .awardConfig(raffleAwardEntity.getAwardConfig())
                             .build();
                     awardService.saveUserAwardRecord(userAwardRecord);
-                    activityDrawResponseDTOS.add(ActivityDrawResponseDTO.builder()
-                            .awardId(userAwardRecord.getAwardId())
-                            .awardTitle(userAwardRecord.getAwardTitle())
-                            .awardIndex(raffleAwardEntity.getSort())
-                            .build());
+                    awardTitleList.add(raffleAwardEntity.getAwardTitle());
                     return null;
                 });
             }
             executor.invokeAll(tasks);
-            return Response.<List<ActivityDrawResponseDTO>>builder()
+            log.info("抽奖结果List" + awardTitleList);
+            return Response.<ActivityDrawTenResponseDTO>builder()
                     .code(ResponseCode.SUCCESS.getCode())
                     .info(ResponseCode.SUCCESS.getInfo())
-                    .data(activityDrawResponseDTOS)
+                    .data(ActivityDrawTenResponseDTO.builder().awardTitleList(awardTitleList).build())
                     .build();
         }catch (AppException e){
             log.error("活动抽奖失败 userId:{} activityId:{}", request.getUserId(), request.getActivityId(), e);
-            return Response.<List<ActivityDrawResponseDTO>>builder()
+            return Response.<ActivityDrawTenResponseDTO>builder()
                     .code(e.getCode())
                     .info(e.getInfo())
+                    .build();
+        }
+    }
+
+    @RequestMapping(value = "query_user_award_record", method = RequestMethod.POST)
+    @Override
+    public Response<List<UserAwardRecordResponseDTO>> queryUserRecord(@RequestBody UserAwardRecordRequestDTO request) {
+        try{
+            log.info("查询用户中奖记录开始: " + request.getUserId());
+            // 1. 参数校验
+            if (StringUtils.isBlank(request.getUserId())) {
+                throw new AppException(ResponseCode.ILLEGAL_PARAMETER.getCode(), ResponseCode.ILLEGAL_PARAMETER.getInfo());
+            }
+            List<cn.good.domain.activity.model.entity.UserAwardRecordEntity> userAwardRecordEntities = raffleActivityAccountQuotaService.queryUserRecordEntity(request.getUserId());
+            List<UserAwardRecordResponseDTO> responseDTOS = new ArrayList<>();
+            for(cn.good.domain.activity.model.entity.UserAwardRecordEntity userAwardRecord : userAwardRecordEntities){
+                UserAwardRecordResponseDTO userAwardRecordResponseDTO = new UserAwardRecordResponseDTO();
+                userAwardRecordResponseDTO.setAwardTitle(userAwardRecord.getAwardTitle());
+                userAwardRecordResponseDTO.setAwardTime(userAwardRecord.getAwardTime());
+                responseDTOS.add(userAwardRecordResponseDTO);
+            }
+            log.info("查询用户中奖记录完成 userId: {}",request.getUserId());
+            log.info("查询结果 responseDTOS:{}",responseDTOS);
+            return Response.<List<UserAwardRecordResponseDTO>>builder()
+                    .code(ResponseCode.SUCCESS.getCode())
+                    .info(ResponseCode.SUCCESS.getInfo())
+                    .data(responseDTOS)
+                    .build();
+        }catch (Exception e){
+            log.error("查询用户中奖记录失败 userId :{}",request.getUserId());
+            return Response.<List<UserAwardRecordResponseDTO>>builder()
+                    .code(ResponseCode.UN_ERROR.getCode())
+                    .info(ResponseCode.UN_ERROR.getInfo())
                     .build();
         }
     }

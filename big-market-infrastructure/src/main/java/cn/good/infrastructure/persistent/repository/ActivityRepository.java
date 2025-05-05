@@ -69,6 +69,8 @@ public class ActivityRepository implements IActivityRepository{
     private ActivitySkuStockZeroMessageEvent activitySkuStockZeroMessageEvent;
     @Resource
     private EventPublisher eventPublisher;
+    @Resource
+    private IUserAwardRecordDao userAwardRecordDao;
 
     @Override
     public ActivitySkuEntity queryActivitySku(Long sku) {
@@ -125,6 +127,18 @@ public class ActivityRepository implements IActivityRepository{
                 .build();
         redisService.setValue(cacheKey, activityCountEntity);
         return activityCountEntity;
+    }
+    @Override
+    public List<UserAwardRecordEntity> queryUserAwardEntity(String userId) {
+        List<UserAwardRecord> userAwardRecordEntities = userAwardRecordDao.queryUserAwardRecordByUserId(userId);
+        List<UserAwardRecordEntity> userAwardsRecords = new ArrayList<>();
+        for(UserAwardRecord userAwardRecord : userAwardRecordEntities){
+            UserAwardRecordEntity userAwardRecord1 = new UserAwardRecordEntity();
+            userAwardRecord1.setAwardTitle(userAwardRecord.getAwardTitle());
+            userAwardRecord1.setAwardTime(userAwardRecord.getAwardTime());
+            userAwardsRecords.add(userAwardRecord1);
+        }
+        return userAwardsRecords;
     }
 
     @Override

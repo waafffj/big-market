@@ -18,7 +18,7 @@ import java.util.List;
 @DBRouterStrategy(splitTable = true)
 public interface IUserRaffleOrderDao {
     void insert(UserRaffleOrder userRaffleOrder);
-    @DBRouter
+   @DBRouter
     UserRaffleOrder queryNoUsedRaffleOrder(UserRaffleOrder userRaffleOrderReq);
     int updateUserRaffleOrderStateUsed(UserRaffleOrder userRaffleOrderReq);
 

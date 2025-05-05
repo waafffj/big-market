@@ -29,7 +29,9 @@ public interface IRaffleActivityService {
      */
 
     Response<ActivityDrawResponseDTO> draw(ActivityDrawRequestDTO request);
-    Response<List<ActivityDrawResponseDTO>> drawList( ActivityDrawRequestDTO request)throws InterruptedException;
+    Response<ActivityDrawTenResponseDTO> drawList( ActivityDrawTenRequestDTO request)throws InterruptedException;
+
+    Response<List<UserAwardRecordResponseDTO>> queryUserRecord(UserAwardRecordRequestDTO request);
 
     /**
      * 日历签到返利接口
